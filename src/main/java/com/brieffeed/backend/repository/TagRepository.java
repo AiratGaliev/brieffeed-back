@@ -1,4 +1,4 @@
-package com.brieffeed.backend.repositories;
+package com.brieffeed.backend.repository;
 
 import com.brieffeed.backend.domain.Tag;
 import org.springframework.data.repository.CrudRepository;

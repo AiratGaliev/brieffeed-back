@@ -1,4 +1,4 @@
-package com.brieffeed.backend.repositories;
+package com.brieffeed.backend.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brieffeed.backend.domain.Article;
-import com.brieffeed.backend.services.ArticleService;
+import com.brieffeed.backend.service.ArticleService;
 
 @RestController
 @RequestMapping("/api/article")
