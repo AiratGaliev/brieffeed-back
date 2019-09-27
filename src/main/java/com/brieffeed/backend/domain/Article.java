@@ -26,6 +26,16 @@ public class Article {
 	public Article() {
 
 	}
+	
+	
+
+	public Article(String articleName, String articleIdentifier, String description) {
+		this.articleName = articleName;
+		this.articleIdentifier = articleIdentifier;
+		this.description = description;
+	}
+
+
 
 	@PrePersist
 	protected void onCreate() {
