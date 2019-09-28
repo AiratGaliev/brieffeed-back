@@ -8,10 +8,12 @@ import javax.persistence.*;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(nullable = false, updatable = false)
+	@Column(nullable = false, updatable = false, unique = true)
 	private Long id;
 	@Column(nullable = false)
-	private String firstName, lastName, password, role;
+	private String firstName, lastName, password;
+	@Column(nullable = false)
+	private Role role;
 	@Column(nullable = false, unique = true)
 	private String userName, email, phone;
 	private String description, city;
@@ -22,7 +24,7 @@ public class User {
 	public User() {
 	}
 
-	public User(String firstName, String lastName, String password, String role, String userName, String email,
+	public User(String firstName, String lastName, String password, Role role, String userName, String email,
 			String phone, String description, String city) {
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -39,7 +41,7 @@ public class User {
 		return password;
 	}
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 

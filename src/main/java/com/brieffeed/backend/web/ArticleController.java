@@ -19,7 +19,7 @@ public class ArticleController {
 
 	@PostMapping("")
 	public ResponseEntity<Article> createNewArticle(@RequestBody Article article) {
-		Article article2 = articleService.saveOrUpdateArticel(article);
+		articleService.saveOrUpdateArticel(article);
 		return new ResponseEntity<Article>(article, HttpStatus.CREATED);
 	}
 }

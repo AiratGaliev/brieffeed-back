@@ -2,6 +2,7 @@ package com.brieffeed.backend.domain;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,9 +17,13 @@ import javax.persistence.PreUpdate;
 public class Article {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(nullable = false, updatable = false, unique = true)
 	private Long id;
+	@Column(nullable = false)
 	private String articleName;
+	@Column(nullable = false, unique = true)
 	private String articleIdentifier;
+	@Column(nullable = false)
 	private String description;
 	private Date startDate;
 	private Date endDate;
@@ -38,7 +43,7 @@ public class Article {
 		this.articleName = articleName;
 		this.articleIdentifier = articleIdentifier;
 		this.description = description;
-		if (user.getRole() == "author") {
+		if (user.getRole() == Role.AUTHOR) {
 			this.user = user;
 		}
 	}
