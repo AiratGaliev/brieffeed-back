@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity(name = "user_entity")
 public class User {
 	@Id
@@ -19,6 +22,7 @@ public class User {
 	private String description, city;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	@JsonIgnore
 	private List<Article> articles;
 
 	public User() {
@@ -39,6 +43,26 @@ public class User {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public String getCity() {
+		return city;
 	}
 
 	public Role getRole() {

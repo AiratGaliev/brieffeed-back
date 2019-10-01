@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.brieffeed.backend.domain.Article;
+import com.brieffeed.backend.repository.ArticleRepository;
 import com.brieffeed.backend.service.ArticleService;
 
 @RestController

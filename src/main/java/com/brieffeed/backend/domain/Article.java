@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class Article {
 	@Id
@@ -33,6 +36,7 @@ public class Article {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_entity")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private User user;
 
 	public Article() {
@@ -56,6 +60,22 @@ public class Article {
 	@PreUpdate
 	protected void onUpdate() {
 		this.updateDate = new Date();
+	}
+
+	public String getArticleName() {
+		return articleName;
+	}
+
+	public String getArticleIdentifier() {
+		return articleIdentifier;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
 	}
 
 	public User getUser() {
