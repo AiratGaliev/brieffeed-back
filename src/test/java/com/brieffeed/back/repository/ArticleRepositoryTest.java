@@ -1,8 +1,6 @@
-package com.brieffeed.backend.repository;
+package com.brieffeed.back.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +9,11 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.brieffeed.backend.domain.Article;
-import com.brieffeed.backend.domain.Role;
-import com.brieffeed.backend.domain.User;
+import com.brieffeed.back.domain.Article;
+import com.brieffeed.back.domain.Role;
+import com.brieffeed.back.domain.User;
+import com.brieffeed.back.repository.ArticleRepository;
+import com.brieffeed.back.repository.UserRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest

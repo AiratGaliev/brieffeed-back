@@ -1,4 +1,4 @@
-package com.brieffeed.backend.service;
+package com.brieffeed.back.service;
 
 import java.util.Date;
 

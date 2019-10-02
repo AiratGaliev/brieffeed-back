@@ -1,9 +1,9 @@
-package com.brieffeed.backend.repository;
+package com.brieffeed.back.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.brieffeed.backend.domain.Article;
+import com.brieffeed.back.domain.Article;
 
 @Repository
 public interface ArticleRepository extends CrudRepository<Article, Long> {

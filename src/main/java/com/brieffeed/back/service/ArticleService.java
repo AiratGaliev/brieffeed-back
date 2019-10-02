@@ -1,10 +1,10 @@
-package com.brieffeed.backend.service;
+package com.brieffeed.back.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.brieffeed.backend.domain.Article;
-import com.brieffeed.backend.repository.ArticleRepository;
+import com.brieffeed.back.domain.Article;
+import com.brieffeed.back.repository.ArticleRepository;
 
 @Service
 public class ArticleService {

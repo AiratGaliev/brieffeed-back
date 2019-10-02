@@ -1,4 +1,4 @@
-package com.brieffeed.backend.domain;
+package com.brieffeed.back.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

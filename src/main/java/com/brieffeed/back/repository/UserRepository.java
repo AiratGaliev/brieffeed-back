@@ -1,8 +1,9 @@
-package com.brieffeed.backend.repository;
+package com.brieffeed.back.repository;
 
-import com.brieffeed.backend.domain.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+
+import com.brieffeed.back.domain.User;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {

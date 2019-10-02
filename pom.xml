@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.brieffeed</groupId>
-	<artifactId>brieffeed-backend</artifactId>
+	<artifactId>brieffeed-back</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>brieffeed-backend</name>
+	<name>brieffeed-back</name>
 	<description>Backend part of brieffeed.com</description>
 
 	<properties>

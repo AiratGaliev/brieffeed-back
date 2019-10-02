@@ -1,4 +1,4 @@
-package com.brieffeed.backend;
+package com.brieffeed.back;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.brieffeed.backend.web.ArticleController;
+import com.brieffeed.back.web.ArticleController;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

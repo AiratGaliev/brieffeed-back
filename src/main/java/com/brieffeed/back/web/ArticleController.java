@@ -1,4 +1,4 @@
-package com.brieffeed.backend.web;
+package com.brieffeed.back.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,9 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.brieffeed.backend.domain.Article;
-import com.brieffeed.backend.repository.ArticleRepository;
-import com.brieffeed.backend.service.ArticleService;
+import com.brieffeed.back.domain.Article;
+import com.brieffeed.back.service.ArticleService;
 
 @RestController
 @RequestMapping("/api/article")

@@ -1,11 +1,10 @@
-package com.brieffeed.backend.domain;
+package com.brieffeed.back.domain;
 
 import java.util.List;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity(name = "user_entity")
 public class User {

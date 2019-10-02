@@ -1,4 +1,4 @@
-package com.brieffeed.backend;
+package com.brieffeed.back;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -7,11 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.brieffeed.backend.domain.Article;
-import com.brieffeed.backend.domain.Role;
-import com.brieffeed.backend.domain.User;
-import com.brieffeed.backend.repository.ArticleRepository;
-import com.brieffeed.backend.repository.UserRepository;
+import com.brieffeed.back.domain.Article;
+import com.brieffeed.back.domain.Role;
+import com.brieffeed.back.domain.User;
+import com.brieffeed.back.repository.ArticleRepository;
+import com.brieffeed.back.repository.UserRepository;
 
 @SpringBootApplication
 public class BrieffeedBackendApplication {

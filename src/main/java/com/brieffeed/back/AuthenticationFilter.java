@@ -1,4 +1,4 @@
-package com.brieffeed.backend;
+package com.brieffeed.back;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
-import com.brieffeed.backend.service.AuthenticationService;
+import com.brieffeed.back.service.AuthenticationService;
 
 public class AuthenticationFilter extends GenericFilterBean {
 

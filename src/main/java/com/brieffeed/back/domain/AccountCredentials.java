@@ -1,4 +1,4 @@
-package com.brieffeed.backend.domain;
+package com.brieffeed.back.domain;
 
 public class AccountCredentials {
 	private String username;

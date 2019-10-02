@@ -1,4 +1,4 @@
-package com.brieffeed.backend.domain;
+package com.brieffeed.back.domain;
 
 import java.util.Date;
 
@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
