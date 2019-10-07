@@ -29,10 +29,10 @@ public class BrieffeedBackendApplication {
 	@Bean
 	CommandLineRunner runner() {
 		return args -> {
-			User user = new User("Test", "Test", new BCryptPasswordEncoder(12).encode("test"), Role.AUTHOR, "test", "test@mail.com", "+1111", "test description",
-					"test city");
+			User user = new User("Test", "Test", new BCryptPasswordEncoder(12).encode("test"), Role.AUTHOR, "test",
+					"test@mail.com", "+1111", "test description", "test city");
 			userRepository.save(user);
-			articleRepository.save(new Article("Test Article", "test", "Test Article Description", user));
+			articleRepository.save(new Article("Test Article", "Test Article Description", user));
 
 		};
 	}

@@ -23,8 +23,6 @@ public class Article {
 	private Long id;
 	@Column(nullable = false)
 	private String articleName;
-	@Column(nullable = false, unique = true)
-	private String articleIdentifier;
 	@Column(nullable = false)
 	private String description;
 	private Date startDate;
@@ -35,16 +33,15 @@ public class Article {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_entity")
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private User user;
 
 	public Article() {
 
 	}
 
-	public Article(String articleName, String articleIdentifier, String description, User user) {
+	public Article(String articleName, String description, User user) {
 		this.articleName = articleName;
-		this.articleIdentifier = articleIdentifier;
 		this.description = description;
 		if (user.getRole() == Role.AUTHOR) {
 			this.user = user;
@@ -63,10 +60,6 @@ public class Article {
 
 	public String getArticleName() {
 		return articleName;
-	}
-
-	public String getArticleIdentifier() {
-		return articleIdentifier;
 	}
 
 	public String getDescription() {

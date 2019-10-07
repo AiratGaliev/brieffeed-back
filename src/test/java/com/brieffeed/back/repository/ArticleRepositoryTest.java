@@ -32,9 +32,9 @@ public class ArticleRepositoryTest {
 		User user = new User("Test2", "Test2", new BCryptPasswordEncoder(12).encode("test2"), Role.AUTHOR, "test2",
 				"test2@mail.com", "+2222", "test description", "test city");
 		entityManager.persistAndFlush(user);
-		Article article = new Article("Test Article", "test2", "Test Article Description", user);
+		Article article = new Article("Test Article", "Test Article Description", user);
 		entityManager.persistAndFlush(article);
-		assertThat(article.getArticleIdentifier()).isNotNull();
+		assertThat(article.getArticleName()).isNotNull();
 	}
 
 	@Test
@@ -42,8 +42,8 @@ public class ArticleRepositoryTest {
 		User user = new User("Test2", "Test2", new BCryptPasswordEncoder(12).encode("test3"), Role.AUTHOR, "test3",
 				"test3@mail.com", "+3333", "test description", "test city");
 		entityManager.persistAndFlush(user);
-		entityManager.persistAndFlush(new Article("Test Article", "test3", "Test Article Description", user));
-		entityManager.persistAndFlush(new Article("Test Article", "test4", "Test Article Description", user));
+		entityManager.persistAndFlush(new Article("Test Article", "Test Article Description", user));
+		entityManager.persistAndFlush(new Article("Test Article", "Test Article Description", user));
 		articleRepository.deleteAll();
 		assertThat(articleRepository.findAll()).isEmpty();
 	}

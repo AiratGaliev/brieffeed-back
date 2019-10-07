@@ -21,40 +21,23 @@ import com.brieffeed.back.service.UserDetailServiceImpl;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	@Autowired
+	private UserDetailServiceImpl userDetailsService;
 
-	// определение защищенных и незащищенных конечных точек
-	// https://spring.io/guides/gs/securing-web/
-//	@Override
-//	protected void configure(HttpSecurity http) throws Exception {
-//		http.cors().and().authorizeRequests().antMatchers(HttpMethod.GET, "/login").permitAll().anyRequest()
-//				.authenticated().and()
-//				// Фильтр для запросов api / login
-//				.addFilterBefore(new LoginFilter("/login", authenticationManager()),
-//						UsernamePasswordAuthenticationFilter.class)
-//				// Фильтр для других запросов для проверки JWT в заголовке
-//				.addFilterBefore(new AuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-//	}
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		// disable caching
-		http.headers().cacheControl();
-		http.csrf().disable() // disable csrf for our requests.
-				.authorizeRequests().antMatchers("/").permitAll().antMatchers(HttpMethod.POST, "/login").permitAll()
-				.anyRequest().authenticated().and()
-				// We filter the api/login requests
-				.addFilterBefore(new LoginFilter("/login", authenticationManager()),
-						UsernamePasswordAuthenticationFilter.class)
-				// And filter other requests to check the presence of JWT in header
-				.addFilterBefore(new AuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
 	}
 
-	@Autowired
-	private UserDetailServiceImpl userDetailService;
-
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-		authenticationManagerBuilder.userDetailsService(userDetailService)
-				.passwordEncoder(new BCryptPasswordEncoder(12));
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.csrf().disable().cors().and().authorizeRequests().antMatchers(HttpMethod.POST, "/login").permitAll()
+				.anyRequest().authenticated().and()
+				// фильтрация для запроса api/login
+				.addFilterBefore(new LoginFilter("/login", authenticationManager()),
+						UsernamePasswordAuthenticationFilter.class)
+				// фильтрация для других запросов
+				.addFilterBefore(new AuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 
 	@Bean
