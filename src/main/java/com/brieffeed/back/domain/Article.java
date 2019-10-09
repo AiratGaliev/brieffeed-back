@@ -12,7 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.validation.constraints.NotBlank;
 
+import org.springframework.data.repository.NoRepositoryBean;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -22,14 +26,12 @@ public class Article {
 	@Column(nullable = false, updatable = false, unique = true)
 	private Long id;
 	@Column(nullable = false)
+	@NotBlank(message = "Article name is required")
 	private String articleName;
-	@Column(nullable = false)
+	@NotBlank(message = "Article description is required")
 	private String description;
-	private Date startDate;
-	private Date endDate;
-
-	private Date createdDate;
-	private Date updateDate;
+	@JsonFormat(pattern = "yyyy-mm-dd")
+	private Date createdDate, updatedDate;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_entity")
@@ -43,9 +45,7 @@ public class Article {
 	public Article(String articleName, String description, User user) {
 		this.articleName = articleName;
 		this.description = description;
-		if (user.getRole() == Role.AUTHOR) {
-			this.user = user;
-		}
+		this.user = user;
 	}
 
 	@PrePersist
@@ -55,7 +55,7 @@ public class Article {
 
 	@PreUpdate
 	protected void onUpdate() {
-		this.updateDate = new Date();
+		this.updatedDate = new Date();
 	}
 
 	public String getArticleName() {

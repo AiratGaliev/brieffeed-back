@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.brieffeed.back.domain.AccountCredentials;
-import com.brieffeed.back.service.AuthenticationService;
+import com.brieffeed.back.services.AuthenticationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class LoginFilter extends AbstractAuthenticationProcessingFilter {

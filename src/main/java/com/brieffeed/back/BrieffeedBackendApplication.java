@@ -10,8 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.brieffeed.back.domain.Article;
 import com.brieffeed.back.domain.Role;
 import com.brieffeed.back.domain.User;
-import com.brieffeed.back.repository.ArticleRepository;
-import com.brieffeed.back.repository.UserRepository;
+import com.brieffeed.back.repositories.ArticleRepository;
+import com.brieffeed.back.repositories.UserRepository;
 
 @SpringBootApplication
 public class BrieffeedBackendApplication {

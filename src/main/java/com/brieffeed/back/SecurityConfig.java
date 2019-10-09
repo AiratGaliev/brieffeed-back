@@ -16,7 +16,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.brieffeed.back.service.UserDetailServiceImpl;
+import com.brieffeed.back.services.UserDetailServiceImpl;
 
 @Configuration
 @EnableWebSecurity
