@@ -9,5 +9,5 @@ public class Comment {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private User user;
-	private Article post;
+	private Post post;
 }

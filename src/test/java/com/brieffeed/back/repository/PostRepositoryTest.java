@@ -9,43 +9,43 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.brieffeed.back.domain.Article;
+import com.brieffeed.back.domain.Post;
 import com.brieffeed.back.domain.Role;
 import com.brieffeed.back.domain.User;
-import com.brieffeed.back.repositories.ArticleRepository;
+import com.brieffeed.back.repositories.PostRepository;
 import com.brieffeed.back.repositories.UserRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class ArticleRepositoryTest {
+public class PostRepositoryTest {
 	@Autowired
 	private TestEntityManager entityManager;
 
 	@Autowired
-	private ArticleRepository articleRepository;
+	private PostRepository postRepository;
 
 	@Autowired
 	private UserRepository userRepository;
 
 	@Test
-	public void saveArticle() {
+	public void savePost() {
 		User user = new User("Test2", "Test2", new BCryptPasswordEncoder(12).encode("test2"), Role.AUTHOR, "test2",
 				"test2@mail.com", "+2222", "test description", "test city");
 		entityManager.persistAndFlush(user);
-		Article article = new Article("Test Article", "Test Article Description", user);
-		entityManager.persistAndFlush(article);
-		assertThat(article.getArticleName()).isNotNull();
+		Post post = new Post("Test Post", "Test Post Description", user);
+		entityManager.persistAndFlush(post);
+		assertThat(post.getPostName()).isNotNull();
 	}
 
 	@Test
-	public void deleteArticles() {
+	public void deletePost() {
 		User user = new User("Test2", "Test2", new BCryptPasswordEncoder(12).encode("test3"), Role.AUTHOR, "test3",
 				"test3@mail.com", "+3333", "test description", "test city");
 		entityManager.persistAndFlush(user);
-		entityManager.persistAndFlush(new Article("Test Article", "Test Article Description", user));
-		entityManager.persistAndFlush(new Article("Test Article", "Test Article Description", user));
-		articleRepository.deleteAll();
-		assertThat(articleRepository.findAll()).isEmpty();
+		entityManager.persistAndFlush(new Post("Test Post", "Test Post Description", user));
+		entityManager.persistAndFlush(new Post("Test Post", "Test Post Description", user));
+		postRepository.deleteAll();
+		assertThat(postRepository.findAll()).isEmpty();
 	}
 
 }

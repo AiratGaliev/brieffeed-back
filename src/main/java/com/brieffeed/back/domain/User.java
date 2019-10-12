@@ -22,7 +22,7 @@ public class User {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	@JsonIgnore
-	private List<Article> articles;
+	private List<Post> posts;
 
 	public User() {
 	}
@@ -68,12 +68,12 @@ public class User {
 		return role;
 	}
 
-	public List<Article> getArticles() {
-		return articles;
+	public List<Post> getPosts() {
+		return posts;
 	}
 
-	public void setArticles(List<Article> articles) {
-		this.articles = articles;
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 
 }

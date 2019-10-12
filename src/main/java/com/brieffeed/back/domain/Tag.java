@@ -14,7 +14,7 @@ public class Tag {
 	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "post_tag", joinColumns = { @JoinColumn(name = "tagId") }, inverseJoinColumns = {
 			@JoinColumn(name = "id") })
-	private Set<Article> posts = new HashSet<>(0);
+	private Set<Post> posts = new HashSet<>(0);
 
 	public Tag() {
 	}

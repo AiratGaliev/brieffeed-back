@@ -11,25 +11,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.brieffeed.back.domain.Article;
-import com.brieffeed.back.services.ArticleService;
+import com.brieffeed.back.domain.Post;
+import com.brieffeed.back.services.PostService;
 import com.brieffeed.back.services.MapValidationErrorService;
 
 @RestController
-@RequestMapping("/api/article")
-public class ArticleController {
+@RequestMapping("/api/post")
+public class PostController {
 	@Autowired
-	private ArticleService articleService;
+	private PostService postService;
 
 	@Autowired
 	private MapValidationErrorService mapValidationErrorService;
 
 	@PostMapping("")
-	public ResponseEntity<?> createNewArticle(@Valid @RequestBody Article article, BindingResult result) {
+	public ResponseEntity<?> createNewArticle(@Valid @RequestBody Post post, BindingResult result) {
 		ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
 		if (errorMap != null)
 			return errorMap;
-		Article article1 = articleService.saveOrUpdateArticel(article);
-		return new ResponseEntity<>(article1, HttpStatus.CREATED);
+		Post post1 = postService.saveOrUpdateArticel(post);
+		return new ResponseEntity<>(post1, HttpStatus.CREATED);
 	}
 }

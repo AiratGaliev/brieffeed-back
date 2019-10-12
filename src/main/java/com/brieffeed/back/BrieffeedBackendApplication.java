@@ -7,17 +7,17 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.brieffeed.back.domain.Article;
+import com.brieffeed.back.domain.Post;
 import com.brieffeed.back.domain.Role;
 import com.brieffeed.back.domain.User;
-import com.brieffeed.back.repositories.ArticleRepository;
+import com.brieffeed.back.repositories.PostRepository;
 import com.brieffeed.back.repositories.UserRepository;
 
 @SpringBootApplication
 public class BrieffeedBackendApplication {
 
 	@Autowired
-	private ArticleRepository articleRepository;
+	private PostRepository postRepository;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -32,7 +32,7 @@ public class BrieffeedBackendApplication {
 			User user = new User("Test", "Test", new BCryptPasswordEncoder(12).encode("test"), Role.AUTHOR, "test",
 					"test@mail.com", "+1111", "test description", "test city");
 			userRepository.save(user);
-			articleRepository.save(new Article("Test Article", "Test Article Description", user));
+			postRepository.save(new Post("Test Post", "Test Post Description", user));
 
 		};
 	}

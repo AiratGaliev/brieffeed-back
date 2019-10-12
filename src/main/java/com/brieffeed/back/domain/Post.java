@@ -20,15 +20,15 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-public class Article {
+public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false, updatable = false, unique = true)
 	private Long id;
 	@Column(nullable = false)
-	@NotBlank(message = "Article name is required")
-	private String articleName;
-	@NotBlank(message = "Article description is required")
+	@NotBlank(message = "Post name is required")
+	private String postName;
+	@NotBlank(message = "Post description is required")
 	private String description;
 	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date createdDate, updatedDate;
@@ -38,12 +38,12 @@ public class Article {
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private User user;
 
-	public Article() {
+	public Post() {
 
 	}
 
-	public Article(String articleName, String description, User user) {
-		this.articleName = articleName;
+	public Post(String postName, String description, User user) {
+		this.postName = postName;
 		this.description = description;
 		this.user = user;
 	}
@@ -58,8 +58,8 @@ public class Article {
 		this.updatedDate = new Date();
 	}
 
-	public String getArticleName() {
-		return articleName;
+	public String getPostName() {
+		return postName;
 	}
 
 	public String getDescription() {
