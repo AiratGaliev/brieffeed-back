@@ -30,9 +30,9 @@ public class BrieffeedBackendApplication {
 	CommandLineRunner runner() {
 		return args -> {
 			User user = new User("Test", "Test", new BCryptPasswordEncoder(12).encode("test"), Role.AUTHOR, "test",
-					"test@mail.com", "+1111", "test description", "test city");
+					"test@mail.com", "+1111", "test post content", "test city");
 			userRepository.save(user);
-			postRepository.save(new Post("Test Post", "Test Post Description", user));
+			postRepository.save(new Post("Test Post", "Test Post Content", user));
 
 		};
 	}

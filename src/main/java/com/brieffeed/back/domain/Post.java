@@ -28,8 +28,8 @@ public class Post {
 	@Column(nullable = false)
 	@NotBlank(message = "Post name is required")
 	private String postName;
-	@NotBlank(message = "Post description is required")
-	private String description;
+	@NotBlank(message = "Post content is required")
+	private String postContent;
 	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date createdDate, updatedDate;
 
@@ -42,9 +42,9 @@ public class Post {
 
 	}
 
-	public Post(String postName, String description, User user) {
+	public Post(String postName, String postContent, User user) {
 		this.postName = postName;
-		this.description = description;
+		this.postContent = postContent;
 		this.user = user;
 	}
 
@@ -62,8 +62,8 @@ public class Post {
 		return postName;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getPostContent() {
+		return postContent;
 	}
 
 	public Date getCreatedDate() {
