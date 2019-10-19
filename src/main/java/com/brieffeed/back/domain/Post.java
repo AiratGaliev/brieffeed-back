@@ -28,7 +28,6 @@ public class Post {
 	@Column(nullable = false)
 	@NotBlank(message = "Post name is required")
 	private String postName;
-	@NotBlank(message = "Post content is required")
 	private String postContent;
 	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date createdDate, updatedDate;
@@ -56,6 +55,10 @@ public class Post {
 	@PreUpdate
 	protected void onUpdate() {
 		this.updatedDate = new Date();
+	}
+
+	public Long getId() {
+		return id;
 	}
 
 	public String getPostName() {
