@@ -40,6 +40,11 @@ public class User {
 		this.city = city;
 	}
 
+	public Long getUserId() {
+		return id;
+	}
+
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}

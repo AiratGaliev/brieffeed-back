@@ -13,9 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
-
-import org.springframework.data.repository.NoRepositoryBean;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -57,7 +54,7 @@ public class Post {
 		this.updatedDate = new Date();
 	}
 
-	public Long getId() {
+	public Long getPostId() {
 		return id;
 	}
 
