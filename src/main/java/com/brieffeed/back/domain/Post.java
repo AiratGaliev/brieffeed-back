@@ -74,4 +74,12 @@ public class Post {
 		return user;
 	}
 
+	public void setPostName(String postName) {
+		this.postName = postName;
+	}
+
+	public void setPostContent(String postContent) {
+		this.postContent = postContent;
+	}
+
 }
