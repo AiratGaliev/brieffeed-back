@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
@@ -22,7 +24,11 @@ public class Comment {
 	private Date createdDate, updatedDate;
 
 	private User user;
+	
+	@ManyToOne
 	private Post post;
+	
+	@OneToMany
 	private Comment parent;
 
 	@PrePersist

@@ -35,13 +35,18 @@ public class Post {
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private User user;
 
+	@ManyToOne
+	@JoinColumn(name = "category")
+	private Category category;
+
 	public Post() {
 
 	}
 
-	public Post(String name, String content, User user, Status status) {
+	public Post(String name, String content, Category category, User user, Status status) {
 		this.name = name;
 		this.content = content;
+		this.category = category;
 		this.user = user;
 		this.status = status;
 	}
@@ -70,6 +75,14 @@ public class Post {
 
 	public Date getCreatedDate() {
 		return createdDate;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	public User getUser() {

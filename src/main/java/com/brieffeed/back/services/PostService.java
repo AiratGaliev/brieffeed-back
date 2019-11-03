@@ -12,6 +12,10 @@ import com.brieffeed.back.repositories.PostRepository;
 public class PostService {
 	@Autowired
 	private PostRepository postRepository;
+	
+	public Iterable<Post> getAll() {
+		return postRepository.findAll();
+	}
 
 	public Post create(Post post) {
 
@@ -25,6 +29,7 @@ public class PostService {
 		Post post1 = postOriginal.get();
 		post1.setName(post.getName());
 		post1.setContent(post.getContent());
+		post1.setStatus(post.getStatus());
 		return postRepository.save(post1);
 
 	}

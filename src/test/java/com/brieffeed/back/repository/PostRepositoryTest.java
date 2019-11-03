@@ -9,10 +9,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.brieffeed.back.domain.Category;
 import com.brieffeed.back.domain.Post;
 import com.brieffeed.back.domain.Role;
 import com.brieffeed.back.domain.Status;
 import com.brieffeed.back.domain.User;
+import com.brieffeed.back.repositories.CategoryRepository;
 import com.brieffeed.back.repositories.PostRepository;
 import com.brieffeed.back.repositories.UserRepository;
 
@@ -28,12 +30,17 @@ public class PostRepositoryTest {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private CategoryRepository categoryRepository;
+
 	@Test
 	public void savePost() {
 		User user = new User("Test2", "Test2", new BCryptPasswordEncoder(12).encode("test2"), Role.AUTHOR, "test2",
 				"test2@mail.com", "+2222", "test content", "test city");
 		entityManager.persistAndFlush(user);
-		Post post = new Post("Test Post", "Test Post Content", user, Status.DRAFT);
+		Category category = new Category("Test Category", "Test Category Description");
+		categoryRepository.save(category);
+		Post post = new Post("Test Post", "Test Post Content", category, user, Status.DRAFT);
 		entityManager.persistAndFlush(post);
 		assertThat(post.getName()).isNotNull();
 	}
@@ -43,8 +50,10 @@ public class PostRepositoryTest {
 		User user = new User("Test2", "Test2", new BCryptPasswordEncoder(12).encode("test3"), Role.AUTHOR, "test3",
 				"test3@mail.com", "+3333", "test post content", "test city");
 		entityManager.persistAndFlush(user);
-		entityManager.persistAndFlush(new Post("Test Post", "Test Post Content", user, Status.DRAFT));
-		entityManager.persistAndFlush(new Post("Test Post", "Test Post Content", user, Status.DRAFT));
+		Category category = new Category("Test Category", "Test Category Description");
+		categoryRepository.save(category);
+		entityManager.persistAndFlush(new Post("Test Post", "Test Post Content", category, user, Status.DRAFT));
+		entityManager.persistAndFlush(new Post("Test Post", "Test Post Content", category, user, Status.DRAFT));
 		postRepository.deleteAll();
 		assertThat(postRepository.findAll()).isEmpty();
 	}
