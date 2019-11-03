@@ -16,6 +16,6 @@ public class Category {
 	@Column(nullable = false)
 	@NotBlank(message = "Category name is required")
 	private String name;
-	@NotBlank(message = "Description name is required")
+	@NotBlank(message = "Category description is required")
 	private String description;
 }
