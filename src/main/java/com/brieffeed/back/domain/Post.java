@@ -26,9 +26,8 @@ public class Post {
 	@NotBlank(message = "Post name is required")
 	private String name;
 	private String content;
-	@JsonFormat(pattern = "yyyy-mm-dd")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
 	private Date createdDate, updatedDate;
-	
 	private Status status = Status.DRAFT;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -83,6 +82,14 @@ public class Post {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
 }

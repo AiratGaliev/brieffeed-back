@@ -1,21 +1,12 @@
 package com.brieffeed.back.domain;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Tag {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private long tagId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(nullable = false, updatable = false, unique = true)
+	private Long id;
 	private String name;
-
-	@ManyToMany(cascade = CascadeType.MERGE)
-	@JoinTable(name = "post_tag", joinColumns = { @JoinColumn(name = "tagId") }, inverseJoinColumns = {
-			@JoinColumn(name = "id") })
-	private Set<Post> posts = new HashSet<>(0);
-
-	public Tag() {
-	}
 }
