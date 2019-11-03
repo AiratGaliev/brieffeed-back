@@ -13,27 +13,27 @@ public class PostService {
 	@Autowired
 	private PostRepository postRepository;
 
-	public Post savePost(Post post) {
+	public Post create(Post post) {
 
 		// logic
 		return postRepository.save(post);
 
 	}
 
-	public Post updatePost(Post post, String postId) {
+	public Post update(Post post, String postId) {
 		Optional<Post> postOriginal = postRepository.findById(Long.valueOf(postId));
 		Post post1 = postOriginal.get();
-		post1.setPostName(post.getPostName());
-		post1.setPostContent(post.getPostContent());
+		post1.setName(post.getName());
+		post1.setContent(post.getContent());
 		return postRepository.save(post1);
 
 	}
 
-	public Optional<Post> getPost(String postId) {
+	public Optional<Post> getById(String postId) {
 		return postRepository.findById(Long.valueOf(postId));
 	}
 	
-	public void deletePost(String postId) {
+	public void deleteById(String postId) {
 		postRepository.deleteById(Long.valueOf(postId));
 	}
 }

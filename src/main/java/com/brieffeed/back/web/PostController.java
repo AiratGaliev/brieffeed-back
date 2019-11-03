@@ -33,31 +33,31 @@ public class PostController {
 	private MapValidationErrorService mapValidationErrorService;
 
 	@PostMapping("/post")
-	public ResponseEntity<?> createNewPost(@Valid @RequestBody Post post, BindingResult result) {
+	public ResponseEntity<?> create(@Valid @RequestBody Post post, BindingResult result) {
 		ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
 		if (errorMap != null)
 			return errorMap;
-		Post post1 = postService.savePost(post);
+		Post post1 = postService.create(post);
 		return new ResponseEntity<>(post1, HttpStatus.CREATED);
 	}
 
 	@PatchMapping("/posts/{postId}")
-	public ResponseEntity<?> updatePost(@Valid @RequestBody Post post, BindingResult result,
+	public ResponseEntity<?> update(@Valid @RequestBody Post post, BindingResult result,
 			@PathVariable String postId) {
 		ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
 		if (errorMap != null)
 			return errorMap;
-		Post post1 = postService.updatePost(post, postId);
+		Post post1 = postService.update(post, postId);
 		return new ResponseEntity<>(post1, HttpStatus.OK);
 	}
 
 	@GetMapping("/posts/{postId}")
-	public ResponseEntity<?> getPostById(@PathVariable("postId") String postId) {
-		return new ResponseEntity<>(postService.getPost(postId), HttpStatus.OK);
+	public ResponseEntity<?> getById(@PathVariable("postId") String postId) {
+		return new ResponseEntity<>(postService.getById(postId), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/posts/{postId}")
-	public void deletePost(@PathVariable("postId") String postId) {
-		postService.deletePost(postId);
+	public void deleteById(@PathVariable("postId") String postId) {
+		postService.deleteById(postId);
 	}
 }

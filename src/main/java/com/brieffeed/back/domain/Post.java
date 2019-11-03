@@ -24,8 +24,8 @@ public class Post {
 	private Long id;
 	@Column(nullable = false)
 	@NotBlank(message = "Post name is required")
-	private String postName;
-	private String postContent;
+	private String name;
+	private String content;
 	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date createdDate, updatedDate;
 
@@ -38,9 +38,9 @@ public class Post {
 
 	}
 
-	public Post(String postName, String postContent, User user) {
-		this.postName = postName;
-		this.postContent = postContent;
+	public Post(String name, String content, User user) {
+		this.name = name;
+		this.content = content;
 		this.user = user;
 	}
 
@@ -58,12 +58,12 @@ public class Post {
 		return id;
 	}
 
-	public String getPostName() {
-		return postName;
+	public String getName() {
+		return name;
 	}
 
-	public String getPostContent() {
-		return postContent;
+	public String getContent() {
+		return content;
 	}
 
 	public Date getCreatedDate() {
@@ -74,12 +74,12 @@ public class Post {
 		return user;
 	}
 
-	public void setPostName(String postName) {
-		this.postName = postName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setPostContent(String postContent) {
-		this.postContent = postContent;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 }
