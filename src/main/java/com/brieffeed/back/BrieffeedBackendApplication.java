@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.brieffeed.back.domain.Post;
 import com.brieffeed.back.domain.Role;
+import com.brieffeed.back.domain.Status;
 import com.brieffeed.back.domain.User;
 import com.brieffeed.back.repositories.PostRepository;
 import com.brieffeed.back.repositories.UserRepository;
@@ -32,7 +33,7 @@ public class BrieffeedBackendApplication {
 			User user = new User("Test", "Test", new BCryptPasswordEncoder(12).encode("test"), Role.AUTHOR, "test",
 					"test@mail.com", "+1111", "test post content", "test city");
 			userRepository.save(user);
-			postRepository.save(new Post("Test Post", "Test Post Content", user));
+			postRepository.save(new Post("Test Post", "Test Post Content", user, Status.DRAFT));
 
 		};
 	}

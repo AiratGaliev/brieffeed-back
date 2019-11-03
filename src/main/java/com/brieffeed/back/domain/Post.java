@@ -28,6 +28,8 @@ public class Post {
 	private String content;
 	@JsonFormat(pattern = "yyyy-mm-dd")
 	private Date createdDate, updatedDate;
+	
+	private Status status = Status.DRAFT;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_entity")
@@ -38,10 +40,11 @@ public class Post {
 
 	}
 
-	public Post(String name, String content, User user) {
+	public Post(String name, String content, User user, Status status) {
 		this.name = name;
 		this.content = content;
 		this.user = user;
+		this.status = status;
 	}
 
 	@PrePersist
