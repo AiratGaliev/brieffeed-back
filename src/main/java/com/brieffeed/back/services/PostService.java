@@ -32,4 +32,8 @@ public class PostService {
 	public Optional<Post> getPost(String postId) {
 		return postRepository.findById(Long.valueOf(postId));
 	}
+	
+	public void deletePost(String postId) {
+		postRepository.deleteById(Long.valueOf(postId));
+	}
 }

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,5 +54,10 @@ public class PostController {
 	@GetMapping("/posts/{postId}")
 	public ResponseEntity<?> getPostById(@PathVariable("postId") String postId) {
 		return new ResponseEntity<>(postService.getPost(postId), HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/posts/{postId}")
+	public void deletePost(@PathVariable("postId") String postId) {
+		postService.deletePost(postId);
 	}
 }
