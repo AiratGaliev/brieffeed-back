@@ -1,7 +1,10 @@
 package com.brieffeed.back.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,13 +13,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Post {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,13 +37,20 @@ public class Post {
 	private Status status = Status.DRAFT;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_entity")
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@JoinColumn(name = "user_entity_id"
+//	, nullable = false
+	)
 	private User user;
 
-	@ManyToOne
-	@JoinColumn(name = "category")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "category_id"
+//	, nullable = false
+	)
 	private Category category;
+
+	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
+	private List<Comment> comments = new ArrayList<>();
 
 	public Post() {
 
@@ -103,6 +116,10 @@ public class Post {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
 	}
 
 }

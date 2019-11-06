@@ -12,14 +12,9 @@ import com.brieffeed.back.repositories.PostRepository;
 public class PostService {
 	@Autowired
 	private PostRepository postRepository;
-	
-	public Iterable<Post> getAll() {
-		return postRepository.findAll();
-	}
+
 
 	public Post create(Post post) {
-
-		// logic
 		return postRepository.save(post);
 
 	}
@@ -31,14 +26,5 @@ public class PostService {
 		post1.setContent(post.getContent());
 		post1.setStatus(post.getStatus());
 		return postRepository.save(post1);
-
-	}
-
-	public Optional<Post> getById(String postId) {
-		return postRepository.findById(Long.valueOf(postId));
-	}
-	
-	public void deleteById(String postId) {
-		postRepository.deleteById(Long.valueOf(postId));
 	}
 }

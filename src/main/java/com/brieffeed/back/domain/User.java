@@ -6,7 +6,8 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity(name = "user_entity")
+@Entity
+@Table(name = "user_entity")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,9 +21,13 @@ public class User {
 	private String userName, email, phone;
 	private String description, city;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
 	private List<Post> posts;
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
+	private List<Comment> comments;
 
 	public User() {
 	}

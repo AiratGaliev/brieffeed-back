@@ -8,5 +8,6 @@ import com.brieffeed.back.domain.Post;
 
 @Repository
 public interface CategoryRepository extends CrudRepository<Category, Long> {
-
+	@Override
+	Iterable<Category> findAllById(Iterable<Long> iterable);
 }

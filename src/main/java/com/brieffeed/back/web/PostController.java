@@ -18,24 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.brieffeed.back.domain.Post;
 import com.brieffeed.back.services.PostService;
+import com.brieffeed.back.services.CategoryService;
 import com.brieffeed.back.services.MapValidationErrorService;
 
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("api/posts")
 @CrossOrigin
 public class PostController {
 	@Autowired
 	private PostService postService;
+	
+	@Autowired
+	private CategoryService categoryService;
 
 	@Autowired
 	private MapValidationErrorService mapValidationErrorService;
 
-	@GetMapping("")
-	public ResponseEntity<?> getAll() {
-		return new ResponseEntity<>(postService.getAll(), HttpStatus.OK);
-	}
-
-	@PostMapping("")
+	@PostMapping("/create")
 	public ResponseEntity<?> create(@Valid @RequestBody Post post, BindingResult result) {
 		ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
 		if (errorMap != null)
@@ -44,22 +43,12 @@ public class PostController {
 		return new ResponseEntity<>(post1, HttpStatus.CREATED);
 	}
 
-	@PatchMapping("/{postId}")
+	@PatchMapping("/{postId}/update")
 	public ResponseEntity<?> update(@Valid @RequestBody Post post, BindingResult result, @PathVariable String postId) {
 		ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
 		if (errorMap != null)
 			return errorMap;
 		Post post1 = postService.update(post, postId);
 		return new ResponseEntity<>(post1, HttpStatus.OK);
-	}
-
-	@GetMapping("/{postId}")
-	public ResponseEntity<?> getById(@PathVariable("postId") String postId) {
-		return new ResponseEntity<>(postService.getById(postId), HttpStatus.OK);
-	}
-
-	@DeleteMapping("/{postId}")
-	public void deleteById(@PathVariable("postId") String postId) {
-		postService.deleteById(postId);
 	}
 }
