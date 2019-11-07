@@ -1,7 +1,5 @@
 package com.brieffeed.back.services;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +10,6 @@ import com.brieffeed.back.repositories.PostRepository;
 public class PostService {
 	@Autowired
 	private PostRepository postRepository;
-
 
 	public Post create(Post newPost) {
 		return postRepository.save(newPost);

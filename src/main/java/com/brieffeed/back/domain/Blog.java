@@ -73,8 +73,8 @@ public class Blog {
 		return id;
 	}
 
-	public Long getCategoryId() {
-		return category.getCategoryId();
+	public Category getCategory() {
+		return category;
 	}
 
 	public void setCategory(Category category) {

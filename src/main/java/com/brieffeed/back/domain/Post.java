@@ -107,8 +107,8 @@ public class Post {
 		this.user = user;
 	}
 
-	public Long getBlogId() {
-		return blog.getBlogId();
+	public Blog getBlog() {
+		return blog;
 	}
 
 	public void setBlog(Blog blog) {
