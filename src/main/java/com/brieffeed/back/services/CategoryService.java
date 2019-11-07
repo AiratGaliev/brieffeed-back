@@ -22,7 +22,6 @@ public class CategoryService {
 		Optional<Category> categoryOriginal = categoryRepository.findById(Long.valueOf(categoryId));
 		Category category1 = categoryOriginal.get();
 		category1.setName(category.getName());
-		category1.setDescription(category.getDescription());
 		return categoryRepository.save(category1);
 	}
 }

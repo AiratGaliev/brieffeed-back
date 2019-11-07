@@ -22,7 +22,7 @@ import com.brieffeed.back.services.CategoryService;
 import com.brieffeed.back.services.MapValidationErrorService;
 
 @RestController
-@RequestMapping("api/posts")
+@RequestMapping("/api/posts")
 @CrossOrigin
 public class PostController {
 	@Autowired

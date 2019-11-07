@@ -14,36 +14,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.brieffeed.back.domain.Category;
-import com.brieffeed.back.services.CategoryService;
+import com.brieffeed.back.domain.Blog;
+import com.brieffeed.back.services.BlogService;
 import com.brieffeed.back.services.MapValidationErrorService;
 
 @RestController
-@RequestMapping("/api/categories")
+@RequestMapping("/api/blogs")
 @CrossOrigin
-public class CategoryController {
+public class BlogController {
 	@Autowired
-	private CategoryService categoryService;
+	private BlogService blogService;
 
 	@Autowired
 	private MapValidationErrorService mapValidationErrorService;
 
 	@PostMapping("/create")
-	public ResponseEntity<?> create(@Valid @RequestBody Category category, BindingResult result) {
+	public ResponseEntity<?> create(@Valid @RequestBody Blog blog, BindingResult result) {
 		ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
 		if (errorMap != null)
 			return errorMap;
-		Category category1 = categoryService.create(category);
-		return new ResponseEntity<>(category1, HttpStatus.CREATED);
+		Blog blog1 = blogService.create(blog);
+		return new ResponseEntity<>(blog1, HttpStatus.CREATED);
 	}
 
-	@PatchMapping("/{categoryId}/update")
-	public ResponseEntity<?> update(@Valid @RequestBody Category category, BindingResult result,
-			@PathVariable String categoryId) {
+	@PatchMapping("/{blogId}/update")
+	public ResponseEntity<?> update(@Valid @RequestBody Blog blog, BindingResult result,
+			@PathVariable String blogId) {
 		ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
 		if (errorMap != null)
 			return errorMap;
-		Category category1 = categoryService.update(category, categoryId);
-		return new ResponseEntity<>(category1, HttpStatus.OK);
+		Blog blog1 = blogService.update(blog, blogId);
+		return new ResponseEntity<>(blog1, HttpStatus.OK);
 	}
 }

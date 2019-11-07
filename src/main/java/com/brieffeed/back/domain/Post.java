@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -43,23 +45,22 @@ public class Post {
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-	@JoinColumn(name = "category_id"
+	@JoinColumn(name = "blog_id", updatable = false
 //	, nullable = false
 	)
-	private Category category;
+	private Blog blog;
 
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnore
 	private List<Comment> comments = new ArrayList<>();
 
 	public Post() {
 
 	}
 
-	public Post(String name, String content, Category category, User user, Status status) {
+	public Post(String name, String content, Blog blog, User user, Status status) {
 		this.name = name;
 		this.content = content;
-		this.category = category;
+		this.blog = blog;
 		this.user = user;
 		this.status = status;
 	}
@@ -74,36 +75,16 @@ public class Post {
 		this.updatedDate = new Date();
 	}
 
-	public Long getPostId() {
-		return id;
-	}
-
 	public String getName() {
 		return name;
 	}
 
-	public String getContent() {
-		return content;
-	}
-
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getContent() {
+		return content;
 	}
 
 	public void setContent(String content) {
@@ -118,8 +99,28 @@ public class Post {
 		this.status = status;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Long getBlogId() {
+		return blog.getBlogId();
+	}
+
+	public void setBlog(Blog blog) {
+		this.blog = blog;
+	}
+
 	public List<Comment> getComments() {
 		return comments;
+	}
+
+	public Long getPostId() {
+		return id;
 	}
 
 }

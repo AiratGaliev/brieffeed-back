@@ -5,9 +5,11 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "user_entity")
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,11 +24,9 @@ public class User {
 	private String description, city;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnore
 	private List<Post> posts;
 	
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnore
 	private List<Comment> comments;
 
 	public User() {
