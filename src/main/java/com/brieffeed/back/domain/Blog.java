@@ -32,7 +32,7 @@ public class Blog {
 	private String description;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-	@JoinColumn(name = "category_id", updatable = false
+	@JoinColumn(name = "category_id"
 //	, nullable = false
 	)
 	private Category category;

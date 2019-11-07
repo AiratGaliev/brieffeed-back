@@ -14,17 +14,17 @@ public class PostService {
 	private PostRepository postRepository;
 
 
-	public Post create(Post post) {
-		return postRepository.save(post);
+	public Post create(Post newPost) {
+		return postRepository.save(newPost);
 
 	}
 
-	public Post update(Post post, String postId) {
-		Optional<Post> postOriginal = postRepository.findById(Long.valueOf(postId));
-		Post post1 = postOriginal.get();
-		post1.setName(post.getName());
-		post1.setContent(post.getContent());
-		post1.setStatus(post.getStatus());
+	public Post update(Post updatedPost, String postId) {
+		Post originalPost = postRepository.findById(Long.valueOf(postId)).get();
+		Post post1 = originalPost;
+		post1.setName(updatedPost.getName());
+		post1.setContent(updatedPost.getContent());
+		post1.setStatus(updatedPost.getStatus());
 		return postRepository.save(post1);
 	}
 }

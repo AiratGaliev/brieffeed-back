@@ -45,7 +45,7 @@ public class Post {
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-	@JoinColumn(name = "blog_id", updatable = false
+	@JoinColumn(name = "blog_id"
 //	, nullable = false
 	)
 	private Blog blog;
