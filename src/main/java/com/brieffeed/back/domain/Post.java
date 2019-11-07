@@ -36,13 +36,13 @@ public class Post {
 	private Date createdDate, updatedDate;
 	private Status status = Status.DRAFT;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_entity_id"
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+	@JoinColumn(name = "user_entity_id", updatable = false
 //	, nullable = false
 	)
 	private User user;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	@JoinColumn(name = "category_id"
 //	, nullable = false
 	)

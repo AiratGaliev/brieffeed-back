@@ -30,11 +30,13 @@ public class Comment {
 	private Date createdDate, updatedDate;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_entity")
+	@JoinColumn(name = "user_entity", updatable = false
+//	, nullable = false
+	)
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "post"
+	@JoinColumn(name = "post", updatable = false
 //	, nullable = false
 	)
 	private Post post;
