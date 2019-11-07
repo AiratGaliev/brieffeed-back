@@ -27,9 +27,6 @@ import com.brieffeed.back.services.MapValidationErrorService;
 public class PostController {
 	@Autowired
 	private PostService postService;
-	
-	@Autowired
-	private CategoryService categoryService;
 
 	@Autowired
 	private MapValidationErrorService mapValidationErrorService;
