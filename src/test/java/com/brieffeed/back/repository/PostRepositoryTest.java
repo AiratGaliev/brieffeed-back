@@ -34,7 +34,7 @@ public class PostRepositoryTest {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
-	
+
 	@Autowired
 	private BlogRepository blogRepository;
 
@@ -42,6 +42,7 @@ public class PostRepositoryTest {
 	public void savePost() {
 		User user = new User("Test2", "Test2", new BCryptPasswordEncoder(12).encode("test2"), Role.AUTHOR, "test2",
 				"test2@mail.com", "+2222", "test content", "test city");
+		userRepository.save(user);
 		entityManager.persistAndFlush(user);
 		Category category = new Category("Test Category");
 		categoryRepository.save(category);

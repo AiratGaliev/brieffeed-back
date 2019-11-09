@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.brieffeed.back.domain.Category;
-import com.brieffeed.back.domain.Post;
 import com.brieffeed.back.repositories.CategoryRepository;
 
 @Service
