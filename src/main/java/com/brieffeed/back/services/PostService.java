@@ -19,7 +19,7 @@ public class PostService {
 	public Post update(Post updatedPost, String postId) {
 		Post originalPost = postRepository.findById(Long.valueOf(postId)).get();
 		Post post1 = originalPost;
-		post1.setName(updatedPost.getName());
+		post1.setTitle(updatedPost.getTitle());
 		post1.setContent(updatedPost.getContent());
 		post1.setStatus(updatedPost.getStatus());
 		return postRepository.save(post1);

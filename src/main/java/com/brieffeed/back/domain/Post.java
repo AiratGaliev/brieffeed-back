@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -29,8 +30,9 @@ public class Post {
 	@Column(nullable = false, updatable = false, unique = true)
 	private Long id;
 	@Column(nullable = false)
-	@NotBlank(message = "Post name is required")
-	private String name;
+	@NotBlank(message = "Post title is required")
+	private String title;
+	@Size(max = 2048)
 	private String content;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
 	private Date createdDate, updatedDate;
@@ -55,8 +57,8 @@ public class Post {
 
 	}
 
-	public Post(String name, String content, Blog blog, User user, Status status) {
-		this.name = name;
+	public Post(String title, String content, Blog blog, User user, Status status) {
+		this.title = title;
 		this.content = content;
 		this.blog = blog;
 		this.user = user;
@@ -73,12 +75,12 @@ public class Post {
 		this.updatedDate = new Date();
 	}
 
-	public String getName() {
-		return name;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getContent() {

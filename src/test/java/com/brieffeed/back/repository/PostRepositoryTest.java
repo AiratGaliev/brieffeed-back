@@ -50,7 +50,7 @@ public class PostRepositoryTest {
 		blogRepository.save(blog);
 		Post post = new Post("Test Post", "Test Post Content", blog, user, Status.DRAFT);
 		entityManager.persistAndFlush(post);
-		assertThat(post.getName()).isNotNull();
+		assertThat(post.getTitle()).isNotNull();
 	}
 
 	@Test
