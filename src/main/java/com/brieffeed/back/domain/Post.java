@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
@@ -31,7 +32,9 @@ public class Post {
 	@Column(nullable = false)
 	@NotBlank(message = "Post title is required")
 	private String title;
-	@Column(columnDefinition="text")
+	@Lob
+	private String description;
+	@Column(columnDefinition = "text")
 	private String content;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
 	private Date createdDate, updatedDate;
@@ -67,11 +70,25 @@ public class Post {
 	@PrePersist
 	protected void onCreate() {
 		this.createdDate = new Date();
+		if (this.content != null) {
+			if (this.content.length() > 600)
+				this.description = this.content.substring(0, 600) + "...";
+			else {
+				this.description = this.content;
+			}
+		}
 	}
 
 	@PreUpdate
 	protected void onUpdate() {
 		this.updatedDate = new Date();
+		if (this.content != null) {
+			if (this.content.length() > 600)
+				this.description = this.content.substring(0, 600) + "...";
+			else {
+				this.description = this.content;
+			}
+		}
 	}
 
 	public String getTitle() {
@@ -80,6 +97,14 @@ public class Post {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getContent() {
