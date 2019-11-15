@@ -17,7 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -32,7 +31,7 @@ public class Post {
 	@Column(nullable = false)
 	@NotBlank(message = "Post title is required")
 	private String title;
-	@Size(max = 2048)
+	@Column(columnDefinition="text")
 	private String content;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
 	private Date createdDate, updatedDate;
@@ -40,13 +39,13 @@ public class Post {
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	@JoinColumn(name = "user_entity_id", updatable = false
-//	, nullable = false
+	// , nullable = false
 	)
 	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
 	@JoinColumn(name = "blog_id"
-//	, nullable = false
+	// , nullable = false
 	)
 	private Blog blog;
 
