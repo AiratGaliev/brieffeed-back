@@ -20,12 +20,14 @@ public class User {
 	@Column(nullable = false)
 	private Role role;
 	@Column(nullable = false, unique = true)
-	private String userName, email, phone;
+	private String userName, email;
+	@Column(unique = true)
+	private String phone;
 	private String description, city;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Post> posts;
-	
+
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Comment> comments;
 
