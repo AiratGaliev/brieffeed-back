@@ -7,7 +7,7 @@ import com.brieffeed.back.domain.Post;
 
 @Repository
 public interface PostRepository extends CrudRepository<Post, Long> {
-	@Override
-	Iterable<Post> findAllById(Iterable<Long> iterable);
+    @Override
+    Iterable<Post> findAllById(Iterable<Long> iterable);
 
 }

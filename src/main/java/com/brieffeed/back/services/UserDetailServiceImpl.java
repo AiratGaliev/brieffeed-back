@@ -5,6 +5,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.brieffeed.back.domain.User;
@@ -12,13 +13,22 @@ import com.brieffeed.back.repositories.UserRepository;
 
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	@Override
-	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		User currentUser = userRepository.findByUserName(userName);
-		return new org.springframework.security.core.userdetails.User(userName, currentUser.getPassword(), true, true,
-				true, true, AuthorityUtils.createAuthorityList(currentUser.getRole().toString()));
-	}
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    public User saveUser(User user) {
+        bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        User currentUser = userRepository.findByUserName(userName);
+        return new org.springframework.security.core.userdetails.User(userName, currentUser.getPassword(), true, true,
+                true, true, AuthorityUtils.createAuthorityList(currentUser.getRole().toString()));
+    }
 }

@@ -21,36 +21,41 @@ import com.brieffeed.back.repositories.UserRepository;
 @SpringBootApplication
 public class BrieffeedBackendApplication {
 
-	@Autowired
-	private PostRepository postRepository;
+    @Autowired
+    private PostRepository postRepository;
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	@Autowired
-	private CategoryRepository categoryRepository;
-	
-	@Autowired
-	private BlogRepository blogRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
-	public static void main(String[] args) {
-		SpringApplication.run(BrieffeedBackendApplication.class, args);
-	}
+    @Autowired
+    private BlogRepository blogRepository;
 
-	@Bean
-	CommandLineRunner runner() {
-		return args -> {
-			User user = new User("Test", "Test", new BCryptPasswordEncoder(12).encode("test"), Role.AUTHOR, "test",
-					"test@mail.com", "+1111", "user test description", "test city");
-			userRepository.save(user);
-			Category category = new Category("Test Category");
-			categoryRepository.save(category);
-			Blog blog = new Blog(category, "Test Blog", "Test Blog Description");
-			blogRepository.save(blog);
-			postRepository.save(new Post("Test Post 1", "Test Post Content 1", blog, user, Status.DRAFT));
-			postRepository.save(new Post("Test Post 2", "Test Post Content 2", blog, user, Status.DRAFT));
+    public static void main(String[] args) {
+        SpringApplication.run(BrieffeedBackendApplication.class, args);
+    }
 
-		};
-	}
+    @Bean
+    BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    CommandLineRunner runner() {
+        return args -> {
+            User user = new User("Test", "Test", new BCryptPasswordEncoder(12).encode("test"), Role.AUTHOR, "test",
+                    "test@mail.com", "+1111", "user test description", "test city");
+            userRepository.save(user);
+            Category category = new Category("Test Category");
+            categoryRepository.save(category);
+            Blog blog = new Blog(category, "Test Blog", "Test Blog Description");
+            blogRepository.save(blog);
+            postRepository.save(new Post("Test Post 1", "Test Post Content 1", blog, user, Status.DRAFT));
+            postRepository.save(new Post("Test Post 2", "Test Post Content 2", blog, user, Status.DRAFT));
+
+        };
+    }
 
 }
