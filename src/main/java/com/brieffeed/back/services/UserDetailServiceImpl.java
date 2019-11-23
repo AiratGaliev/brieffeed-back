@@ -24,6 +24,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         try {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             user.setUserName(user.getUsername());
+            user.setConfirmPassword("");
             return userRepository.save(user);
         } catch (Exception e) {
             throw new UsernameAlreadyExistsException("Username '" + user.getUsername() + "' already exists");
