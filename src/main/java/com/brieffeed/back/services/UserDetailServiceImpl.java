@@ -1,5 +1,6 @@
 package com.brieffeed.back.services;
 
+import com.brieffeed.back.exceptions.UsernameAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,9 +21,13 @@ public class UserDetailServiceImpl implements UserDetailsService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public User saveUser(User user) {
-        bCryptPasswordEncoder = new BCryptPasswordEncoder(12);
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        try {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            user.setUserName(user.getUsername());
+            return userRepository.save(user);
+        } catch (Exception e) {
+            throw new UsernameAlreadyExistsException("Username '" + user.getUsername() + "' already exists");
+        }
     }
 
     @Override

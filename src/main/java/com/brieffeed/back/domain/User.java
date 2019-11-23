@@ -45,8 +45,8 @@ public class User implements UserDetails {
     @NotBlank(message = "Please enter your last name")
     private String lastName;
 
-    //    @Column(nullable = false)
-//    @NotBlank(message = "Password field is required")
+    @Column(nullable = false)
+    @NotBlank(message = "Password field is required")
     private String password;
     @Transient
     private String confirmPassword;
@@ -176,6 +176,7 @@ public class User implements UserDetails {
      * */
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
@@ -186,21 +187,25 @@ public class User implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }
