@@ -25,8 +25,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
     }
 
     @Transactional
-    public UserDetails loadUserById(String userName) {
-        User currentUser = userRepository.findByUserName(userName);
+    public UserDetails loadUserById(Long userName) {
+        User currentUser = userRepository.findByUserName(userName.toString());
         if (currentUser == null)
             new UsernameNotFoundException("User not found");
         return currentUser;
