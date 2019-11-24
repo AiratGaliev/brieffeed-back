@@ -2,7 +2,7 @@ package com.brieffeed.back.web;
 
 import com.brieffeed.back.domain.User;
 import com.brieffeed.back.services.MapValidationErrorService;
-import com.brieffeed.back.services.UserDetailServiceImpl;
+import com.brieffeed.back.services.UserService;
 import com.brieffeed.back.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class UserController {
     private MapValidationErrorService mapValidationErrorService;
 
     @Autowired
-    private UserDetailServiceImpl userDetailService;
+    private UserService userService;
 
     @Autowired
     private UserValidator userValidator;
@@ -33,7 +33,7 @@ public class UserController {
         userValidator.validate(user, result);
         ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
         if (errorMap != null) return errorMap;
-        User newUser = userDetailService.saveUser(user);
+        User newUser = userService.saveUser(user);
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 }

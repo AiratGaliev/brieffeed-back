@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,50 +23,50 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.brieffeed.back.services.UserDetailServiceImpl;
 
+import static com.brieffeed.back.security.SecurityContains.SIGN_UP_URLS;
+
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-        securedEnabled = true,
-        jsr250Enabled = true,
-        prePostEnabled = true
-)
+@EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailServiceImpl userDetailsService;
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
-    }
+    private JwtAuthenticationEntryPoint unauthorizedHandler;
 
     @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+    }
+
+    @Override
+    @Bean(BeanIds.AUTHENTICATION_MANAGER)
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors()
-                .and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and().authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/login", "/", "/api/users/register", "/api/posts/**", "/api/categories/**").permitAll()
-                .antMatchers(
-                        "/favicon.ico",
-                        "/**/*.png",
-                        "/**/*.gif",
-                        "/**/*.svg",
-                        "/**/*.jpg",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js").permitAll()
-                .anyRequest().authenticated().and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).
-                and()
+        http.csrf().disable().cors().and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/login", "/", "/api/posts/**", "/api/categories/**")
+                .permitAll()
+                .antMatchers(SIGN_UP_URLS)
+                .permitAll()
+                .antMatchers("/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html",
+                        "/**/*.css", "/**/*.js")
+                .permitAll().anyRequest().authenticated().and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // фильтрация для запроса api/login
                 .addFilterBefore(new LoginFilter("/login", authenticationManager()),
                         UsernamePasswordAuthenticationFilter.class)
                 // фильтрация для других запросов
                 .addFilterBefore(new AuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
-
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
