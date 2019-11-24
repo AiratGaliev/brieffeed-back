@@ -2,7 +2,6 @@ package com.brieffeed.back.security;
 
 import java.util.Arrays;
 
-import com.brieffeed.back.exceptions.JwtAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,5 +1,6 @@
-package com.brieffeed.back.exceptions;
+package com.brieffeed.back.security;
 
+import com.brieffeed.back.exceptions.InvalidLoginResponse;
 import com.google.gson.Gson;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
