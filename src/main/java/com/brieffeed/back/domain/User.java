@@ -1,5 +1,6 @@
 package com.brieffeed.back.domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +28,7 @@ public class User implements UserDetails {
     private Role role;
 
     @Column(nullable = false, unique = true)
-    @NotBlank(message = "username is required")
+    @NotBlank(message = "Username is required")
     private String userName;
 
     @Column(unique = true)
@@ -54,10 +55,10 @@ public class User implements UserDetails {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private Date createdDate, updatedDate;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Post> posts;
+    @OneToMany(cascade = CascadeType.REFRESH, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "user")
+    private List<Post> posts = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.REFRESH, orphanRemoval = true)
     private List<Comment> comments;
 
     public User() {
@@ -90,7 +91,7 @@ public class User implements UserDetails {
         return id;
     }
 
-//    @JsonIgnore
+    //    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -170,6 +171,10 @@ public class User implements UserDetails {
     public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
+
+//    public String getUserName() {
+//        return userName;
+//    }
 
     /*
      * UserDetails interface methods

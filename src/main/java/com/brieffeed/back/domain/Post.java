@@ -20,131 +20,142 @@ import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Post {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(nullable = false, updatable = false, unique = true)
-	private Long id;
-	@Column(nullable = false)
-	@NotBlank(message = "Post title is required")
-	private String title;
-	@Lob
-	private String description;
-	@Column(columnDefinition = "text")
-	private String content;
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-	private Date createdDate, updatedDate;
-	private Status status = Status.DRAFT;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, updatable = false, unique = true)
+    private Long id;
+    @Column(nullable = false)
+    @NotBlank(message = "Post title is required")
+    private String title;
+    @Lob
+    private String description;
+    @Column(columnDefinition = "text")
+    private String content;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+    private Date createdDate, updatedDate;
+    private Status status = Status.DRAFT;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-	@JoinColumn(name = "user_entity_id", updatable = false
-	// , nullable = false
-	)
-	private User user;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "user_entity_id", updatable = false
+            // , nullable = false
+    )
+    private User user;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-	@JoinColumn(name = "blog_id"
-	// , nullable = false
-	)
-	private Blog blog;
+    private String author;
 
-	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Comment> comments = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "blog_id"
+            // , nullable = false
+    )
+    private Blog blog;
 
-	public Post() {
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
-	}
+    public Post() {
 
-	public Post(String title, String content, Blog blog, User user, Status status) {
-		this.title = title;
-		this.content = content;
-		this.blog = blog;
-		this.user = user;
-		this.status = status;
-	}
+    }
 
-	@PrePersist
-	protected void onCreate() {
-		this.createdDate = new Date();
-		if (this.content != null) {
-			if (this.content.length() > 600)
-				this.description = this.content.substring(0, 600) + "...";
-			else {
-				this.description = this.content;
-			}
-		}
-	}
+    public Post(String title, String content, Blog blog, User user, Status status) {
+        this.title = title;
+        this.content = content;
+        this.blog = blog;
+        this.user = user;
+        this.status = status;
+    }
 
-	@PreUpdate
-	protected void onUpdate() {
-		this.updatedDate = new Date();
-		if (this.content != null) {
-			if (this.content.length() > 600)
-				this.description = this.content.substring(0, 600) + "...";
-			else {
-				this.description = this.content;
-			}
-		}
-	}
+    @PrePersist
+    protected void onCreate() {
+        this.createdDate = new Date();
+        if (this.content != null) {
+            if (this.content.length() > 600)
+                this.description = this.content.substring(0, 600) + "...";
+            else {
+                this.description = this.content;
+            }
+        }
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedDate = new Date();
+        if (this.content != null) {
+            if (this.content.length() > 600)
+                this.description = this.content.substring(0, 600) + "...";
+            else {
+                this.description = this.content;
+            }
+        }
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public String getContent() {
+        return content;
+    }
 
-	public Status getStatus() {
-		return status;
-	}
+    public void setContent(String content) {
+        this.content = content;
+    }
 
-	public void setStatus(Status status) {
-		this.status = status;
-	}
+    public Status getStatus() {
+        return status;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public Blog getBlog() {
-		return blog;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public void setBlog(Blog blog) {
-		this.blog = blog;
-	}
+    public String getAuthor() {
+        return author;
+    }
 
-	public List<Comment> getComments() {
-		return comments;
-	}
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
-	public Long getPostId() {
-		return id;
-	}
+    public Blog getBlog() {
+        return blog;
+    }
+
+    public void setBlog(Blog blog) {
+        this.blog = blog;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public Long getPostId() {
+        return id;
+    }
 
 }
