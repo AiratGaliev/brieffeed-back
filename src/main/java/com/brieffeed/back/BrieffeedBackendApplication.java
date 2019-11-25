@@ -45,7 +45,7 @@ public class BrieffeedBackendApplication {
     @Bean
     CommandLineRunner runner() {
         return args -> {
-            User user = new User("Test", "Test", new BCryptPasswordEncoder().encode("password"), Role.AUTHOR, "test",
+            User user = new User("Test", "Test", bCryptPasswordEncoder().encode("password"), Role.AUTHOR, "test",
                     "test@mail.com", "+1111", "user test description", "test city");
             userRepository.save(user);
             Category category = new Category("Test Category");
