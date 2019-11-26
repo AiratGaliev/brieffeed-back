@@ -22,6 +22,7 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Type;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -34,17 +35,19 @@ public class Post {
     @NotBlank(message = "Post title is required")
     private String title;
     @Lob
+    @Type(type = "text")
     private String description;
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = "TEXT")
     private String content;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private Date createdDate, updatedDate;
-    private Status status = Status.DRAFT;
+    private String status = Status.DRAFT.getStatus();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "user_entity_id", updatable = false
             // , nullable = false
     )
+    @JsonIgnore
     private User user;
 
     private String author;
@@ -53,6 +56,7 @@ public class Post {
     @JoinColumn(name = "blog_id"
             // , nullable = false
     )
+    @JsonIgnore
     private Blog blog;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -62,11 +66,12 @@ public class Post {
 
     }
 
-    public Post(String title, String content, Blog blog, User user, Status status) {
+    public Post(String title, String content, Blog blog, User user, String author, String status) {
         this.title = title;
         this.content = content;
         this.blog = blog;
         this.user = user;
+        this.author = author;
         this.status = status;
     }
 
@@ -118,11 +123,11 @@ public class Post {
         this.content = content;
     }
 
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

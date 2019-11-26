@@ -45,15 +45,16 @@ public class BrieffeedBackendApplication {
     @Bean
     CommandLineRunner runner() {
         return args -> {
-            User user = new User("Test", "Test", bCryptPasswordEncoder().encode("password"), Role.AUTHOR, "test",
+            User user = new User("Test", "Test", bCryptPasswordEncoder().encode("password"), Role.AUTHOR.getRole(), "test",
                     "test@mail.com", "+1111", "user test description", "test city");
             userRepository.save(user);
             Category category = new Category("Test Category");
             categoryRepository.save(category);
             Blog blog = new Blog(category, "Test Blog", "Test Blog Description");
             blogRepository.save(blog);
-            postRepository.save(new Post("Test Post 1", "Test Post Content 1", blog, user, Status.DRAFT));
-            postRepository.save(new Post("Test Post 2", "Test Post Content 2", blog, user, Status.DRAFT));
+            postRepository.save(new Post("Test Post 1", "Test Post Content 1", blog, user, "test", Status.DRAFT.getStatus()));
+            postRepository.save(new Post("Test Post 2", "Test Post Content 2", blog, user, "test", Status.DRAFT.getStatus()));
+            postRepository.save(new Post("Test Post 3", "Test Post Content 2", blog, user, "test", Status.PUBLISH.getStatus()));
 
         };
     }

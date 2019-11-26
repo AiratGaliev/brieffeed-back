@@ -25,7 +25,7 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(nullable = false)
-    private Role role;
+    private String role = Role.USER.getRole();
 
     @Column(nullable = false, unique = true)
     @NotBlank(message = "Username is required")
@@ -64,7 +64,7 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String firstName, String lastName, String password, Role role, String userName, String email,
+    public User(String firstName, String lastName, String password, String role, String userName, String email,
                 String phone, String description, String city) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -103,7 +103,7 @@ public class User implements UserDetails {
         this.confirmPassword = confirmPassword;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -155,7 +155,7 @@ public class User implements UserDetails {
         return city;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 

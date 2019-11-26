@@ -2,17 +2,12 @@ package com.brieffeed.back.web;
 
 import javax.validation.Valid;
 
+import com.brieffeed.back.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.brieffeed.back.domain.Post;
 import com.brieffeed.back.services.PostService;
@@ -30,13 +25,28 @@ public class PostController {
     @Autowired
     private MapValidationErrorService mapValidationErrorService;
 
+    @GetMapping("")
+    public Iterable<Post> getPosts(Principal principal) {
+        return postService.findAllByAuthorAndStatus(principal.getName());
+    }
+
+    @GetMapping("/all")
+    public Iterable<Post> getAllPosts(Principal principal) {
+        return postService.findAll(principal.getName());
+    }
+
+    @GetMapping("/my")
+    public Iterable<Post> getMyPosts(Principal principal) {
+        return postService.findAllByAuthor(principal.getName());
+    }
+
     @PostMapping("/create")
     public ResponseEntity<?> create(@Valid @RequestBody Post post, BindingResult result, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
         if (errorMap != null)
             return errorMap;
         Post post1 = postService.create(post, principal.getName());
-        return new ResponseEntity<Post>(post1, HttpStatus.CREATED);
+        return new ResponseEntity<>(post1, HttpStatus.CREATED);
     }
 
     @PatchMapping("/{postId}/update")
