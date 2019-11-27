@@ -6,8 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import com.brieffeed.back.domain.Post;
 
+import java.util.Optional;
+
 @Repository
 public interface PostRepository extends CrudRepository<Post, Long> {
+
+    Post findPostById(Long aLong);
 
     Iterable<Post> findAll();
 
@@ -19,4 +23,6 @@ public interface PostRepository extends CrudRepository<Post, Long> {
     Iterable<Post> findAllByAuthorAndStatus(String username, String status);
 
     Iterable<Post> findAllByStatus(String status);
+
+    void delete(Post post);
 }

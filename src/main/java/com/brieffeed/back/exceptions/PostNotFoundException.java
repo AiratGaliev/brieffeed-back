@@ -5,8 +5,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class PostNotFoundException extends RuntimeException {
-    private String message;
-
     public PostNotFoundException(String message) {
         super(message);
     }

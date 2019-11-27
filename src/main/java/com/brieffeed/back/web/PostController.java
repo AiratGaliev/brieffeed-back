@@ -3,6 +3,7 @@ package com.brieffeed.back.web;
 import javax.validation.Valid;
 
 import com.brieffeed.back.domain.User;
+import com.brieffeed.back.exceptions.PostIdException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,13 @@ public class PostController {
             return errorMap;
         Post post1 = postService.create(post, principal.getName());
         return new ResponseEntity<>(post1, HttpStatus.CREATED);
+
+    }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<?> getPostById(@PathVariable String postId, Principal principal) {
+        Post post = postService.findById(principal.getName(), postId);
+        return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
     @PatchMapping("/{postId}/update")
@@ -56,5 +64,11 @@ public class PostController {
             return errorMap;
         Post post1 = postService.update(post, postId);
         return new ResponseEntity<>(post1, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<?> delete(@PathVariable String postId, Principal principal) {
+        postService.delete(principal.getName(), postId);
+        return new ResponseEntity<>("Post with ID: " + postId + " was deleted", HttpStatus.OK);
     }
 }
