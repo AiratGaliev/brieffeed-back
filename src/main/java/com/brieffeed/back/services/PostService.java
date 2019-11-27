@@ -49,7 +49,7 @@ public class PostService {
             throw new PostIdException("Post ID: '" + postId + "' does not exists");
         }
         if (!post.getAuthor().equals(username) && post.getStatus().equals(Status.DRAFT.getStatus())) {
-            throw new PostNotFoundException("Post not found");
+            throw new PostNotFoundException("Post not found in your account");
         }
         return post;
     }
@@ -57,21 +57,31 @@ public class PostService {
 
     public Post create(Post newPost, String username) {
         User user = userRepository.findByUserName(username);
-        newPost.setUser(user);
-        newPost.setAuthor(user.getUsername());
-        return postRepository.save(newPost);
+        if (user.getRole().equals(Role.AUTHOR.getRole())) {
+            newPost.setUser(user);
+            newPost.setAuthor(user.getUsername());
+            return postRepository.save(newPost);
+        } else
+            throw new PostNotFoundException("You cannot create posts");
     }
 
-    public Post update(Post updatedPost, String postId) {
+    public Post update(Post updatedPost, String postId, String username) {
         Post originalPost = postRepository.findById(Long.parseLong(postId)).get();
-        Post post1 = originalPost;
-        post1.setTitle(updatedPost.getTitle());
-        post1.setContent(updatedPost.getContent());
-        post1.setStatus(updatedPost.getStatus());
-        return postRepository.save(post1);
+        if (originalPost.getAuthor().equals(username)) {
+            Post post1 = originalPost;
+            post1.setTitle(updatedPost.getTitle());
+            post1.setContent(updatedPost.getContent());
+            post1.setStatus(updatedPost.getStatus());
+            return postRepository.save(post1);
+        } else
+            throw new PostIdException("You cannot this update post");
     }
 
     public void delete(String username, String postId) {
-        postRepository.delete(findById(username, postId));
+        Post post = findById(username, postId);
+        if (post.getAuthor().equals(username) || userRepository.findByUserName(username).getRole().equals(Role.ADMIN.getRole())) {
+            postRepository.delete(post);
+        } else
+            throw new PostIdException("You cannot delete this post");
     }
 }

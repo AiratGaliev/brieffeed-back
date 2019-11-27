@@ -58,11 +58,11 @@ public class PostController {
     }
 
     @PatchMapping("/{postId}/update")
-    public ResponseEntity<?> update(@Valid @RequestBody Post post, BindingResult result, @PathVariable String postId) {
+    public ResponseEntity<?> update(@Valid @RequestBody Post post, BindingResult result, @PathVariable String postId, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
         if (errorMap != null)
             return errorMap;
-        Post post1 = postService.update(post, postId);
+        Post post1 = postService.update(post, postId, principal.getName());
         return new ResponseEntity<>(post1, HttpStatus.OK);
     }
 
