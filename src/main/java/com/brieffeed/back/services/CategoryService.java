@@ -1,12 +1,11 @@
 package com.brieffeed.back.services;
 
-import java.util.Optional;
-
+import com.brieffeed.back.domain.Category;
+import com.brieffeed.back.repositories.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.brieffeed.back.domain.Category;
-import com.brieffeed.back.repositories.CategoryRepository;
+import java.util.Optional;
 
 @Service
 public class CategoryService {

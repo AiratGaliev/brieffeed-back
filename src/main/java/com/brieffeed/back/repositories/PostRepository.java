@@ -1,12 +1,8 @@
 package com.brieffeed.back.repositories;
 
-import com.brieffeed.back.domain.Status;
+import com.brieffeed.back.domain.Post;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
-import com.brieffeed.back.domain.Post;
-
-import java.util.Optional;
 
 @Repository
 public interface PostRepository extends CrudRepository<Post, Long> {

@@ -3,7 +3,6 @@ package com.brieffeed.back.services;
 import com.brieffeed.back.domain.User;
 import com.brieffeed.back.exceptions.UsernameAlreadyExistsException;
 import com.brieffeed.back.repositories.UserRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

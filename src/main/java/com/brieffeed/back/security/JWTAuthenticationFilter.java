@@ -1,27 +1,20 @@
 package com.brieffeed.back.security;
 
-import java.io.IOException;
-import java.util.Collections;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.brieffeed.back.domain.User;
 import com.brieffeed.back.services.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
-
-import com.brieffeed.back.services.AuthenticationService;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collections;
 
 import static com.brieffeed.back.security.SecurityContains.HEADER_STRING;
 import static com.brieffeed.back.security.SecurityContains.TOKEN_PREFIX;

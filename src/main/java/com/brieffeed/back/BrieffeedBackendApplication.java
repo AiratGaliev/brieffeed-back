@@ -1,22 +1,16 @@
 package com.brieffeed.back;
 
+import com.brieffeed.back.domain.*;
+import com.brieffeed.back.repositories.BlogRepository;
+import com.brieffeed.back.repositories.CategoryRepository;
+import com.brieffeed.back.repositories.PostRepository;
+import com.brieffeed.back.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import com.brieffeed.back.domain.Blog;
-import com.brieffeed.back.domain.Category;
-import com.brieffeed.back.domain.Post;
-import com.brieffeed.back.domain.Role;
-import com.brieffeed.back.domain.Status;
-import com.brieffeed.back.domain.User;
-import com.brieffeed.back.repositories.BlogRepository;
-import com.brieffeed.back.repositories.CategoryRepository;
-import com.brieffeed.back.repositories.PostRepository;
-import com.brieffeed.back.repositories.UserRepository;
 
 @SpringBootApplication
 public class BrieffeedBackendApplication {
