@@ -61,7 +61,7 @@ public class PostService {
             newPost.setAuthor(user.getUsername());
             return postRepository.save(newPost);
         } else
-            throw new PostNotFoundException("You cannot create posts");
+            throw new PostNotFoundException("You do not have permission to create posts.");
     }
 
     public Post update(Post updatedPost, String postId, String username) {
@@ -72,7 +72,7 @@ public class PostService {
             originalPost.setStatus(updatedPost.getStatus());
             return postRepository.save(originalPost);
         } else
-            throw new PostIdException("You cannot update this post");
+            throw new PostIdException("You do not have permission to update the post.");
     }
 
     public void delete(String username, String postId) {
@@ -80,6 +80,6 @@ public class PostService {
         if (post.getAuthor().equals(username) || userRepository.findByUserName(username).getRole().equals(Role.ADMIN.getRole())) {
             postRepository.delete(post);
         } else
-            throw new PostIdException("You cannot delete this post");
+            throw new PostIdException("You do not have permission to delete the post.");
     }
 }
