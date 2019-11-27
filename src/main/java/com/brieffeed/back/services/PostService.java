@@ -74,7 +74,7 @@ public class PostService {
             post1.setStatus(updatedPost.getStatus());
             return postRepository.save(post1);
         } else
-            throw new PostIdException("You cannot this update post");
+            throw new PostIdException("You cannot update this post");
     }
 
     public void delete(String username, String postId) {
