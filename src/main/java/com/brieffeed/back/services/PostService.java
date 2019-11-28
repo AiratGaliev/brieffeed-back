@@ -23,29 +23,30 @@ public class PostService {
     @Autowired
     private UserRepository userRepository;
 
+    private String getUserRole(String username) {
+        return userRepository.findByUserName(username).getRole();
+    }
+
     public Iterable<Post> findAll(String username) {
-        if (userRepository.findByUserName(username).getRole().equals(Role.ADMIN.getRole()))
+        if (getUserRole(username).equals(Role.ADMIN.getRole()))
             return postRepository.findAll();
-        else
-            return null;
+        else {
+            List<Post> posts = (List<Post>) postRepository.findAllByStatus(Status.PUBLISH.getStatus());
+            if (getUserRole(username).equals(Role.AUTHOR.getRole())) {
+                posts.addAll((Collection<? extends Post>) postRepository.findAllByAuthorAndStatus(username, Status.DRAFT.getStatus()));
+            }
+            return posts;
+        }
     }
 
     public Iterable<Post> findAllByAuthor(String username) {
         return postRepository.findAllByAuthor(username);
     }
 
-    public Iterable<Post> findAllByAuthorAndStatus(String username) {
-        List<Post> posts = (List<Post>) postRepository.findAllByStatus(Status.PUBLISH.getStatus());
-        if (userRepository.findByUserName(username).getRole().equals(Role.AUTHOR.getRole())) {
-            posts.addAll((Collection<? extends Post>) postRepository.findAllByAuthorAndStatus(username, Status.DRAFT.getStatus()));
-        }
-        return posts;
-    }
-
     public Post findById(String username, String postId) {
         try {
             Post post = postRepository.findPostById(Long.parseLong(postId));
-            if (!post.getAuthor().equals(username) && post.getStatus().equals(Status.DRAFT.getStatus())) {
+            if (!(post.getAuthor().equals(username) && post.getStatus().equals(Status.DRAFT.getStatus()) || getUserRole(username).equals(Role.ADMIN.getRole()))) {
                 throw new PostNotFoundException("Post not found in your account");
             }
             return post;
@@ -66,7 +67,7 @@ public class PostService {
 
     public Post update(Post updatedPost, String postId, String username) {
         Post originalPost = findById(username, postId);
-        if (originalPost.getAuthor().equals(username)) {
+        if (originalPost.getAuthor().equals(username) && getUserRole(username).equals(Role.AUTHOR.getRole())) {
             originalPost.setTitle(updatedPost.getTitle());
             originalPost.setContent(updatedPost.getContent());
             originalPost.setStatus(updatedPost.getStatus());
@@ -77,7 +78,7 @@ public class PostService {
 
     public void delete(String username, String postId) {
         Post post = findById(username, postId);
-        if (post.getAuthor().equals(username) || userRepository.findByUserName(username).getRole().equals(Role.ADMIN.getRole())) {
+        if (post.getAuthor().equals(username) && getUserRole(username).equals(Role.AUTHOR.getRole())|| getUserRole(username).equals(Role.ADMIN.getRole())) {
             postRepository.delete(post);
         } else
             throw new PostIdException("You do not have permission to delete the post.");

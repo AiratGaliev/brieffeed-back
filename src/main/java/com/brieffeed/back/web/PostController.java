@@ -24,11 +24,6 @@ public class PostController {
 
     @GetMapping("")
     public Iterable<Post> getPosts(Principal principal) {
-        return postService.findAllByAuthorAndStatus(principal.getName());
-    }
-
-    @GetMapping("/all")
-    public Iterable<Post> getAllPosts(Principal principal) {
         return postService.findAll(principal.getName());
     }
 
@@ -53,7 +48,7 @@ public class PostController {
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
-    @PatchMapping("/{postId}/update")
+    @PatchMapping("/{postId}")
     public ResponseEntity<?> update(@Valid @RequestBody Post post, BindingResult result, @PathVariable String postId, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
         if (errorMap != null)
