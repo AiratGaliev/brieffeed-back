@@ -23,6 +23,11 @@ public class PostController {
     private MapValidationErrorService mapValidationErrorService;
 
     @GetMapping("")
+    public Iterable<Post> getPosts() {
+        return postService.findAll();
+    }
+
+    @GetMapping(path = "", params = {"principal"})
     public Iterable<Post> getPosts(Principal principal) {
         return postService.findAll(principal.getName());
     }
@@ -39,10 +44,15 @@ public class PostController {
             return errorMap;
         Post post1 = postService.create(post, principal.getName());
         return new ResponseEntity<>(post1, HttpStatus.CREATED);
-
     }
 
-    @GetMapping("/{postId}")
+    @GetMapping(path = "/{postId}")
+    public ResponseEntity<?> getPostById(@PathVariable String postId) {
+        Post post = postService.findById(postId);
+        return new ResponseEntity<>(post, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/{postId}", params = {"principal"})
     public ResponseEntity<?> getPostById(@PathVariable String postId, Principal principal) {
         Post post = postService.findById(principal.getName(), postId);
         return new ResponseEntity<>(post, HttpStatus.OK);

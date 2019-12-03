@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(name="post")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Post {
     @Id

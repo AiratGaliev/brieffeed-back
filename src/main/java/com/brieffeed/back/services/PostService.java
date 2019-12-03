@@ -27,6 +27,10 @@ public class PostService {
         return userRepository.findByUserName(username).getRole();
     }
 
+    public Iterable<Post> findAll() {
+        return postRepository.findAllByStatus(Status.PUBLISH.getStatus());
+    }
+
     public Iterable<Post> findAll(String username) {
         if (getUserRole(username).equals(Role.ADMIN.getRole()))
             return postRepository.findAll();
@@ -43,10 +47,22 @@ public class PostService {
         return postRepository.findAllByAuthor(username);
     }
 
+    public Post findById(String postId) {
+        try {
+            Post post = postRepository.findPostById(Long.parseLong(postId));
+            if (post.getStatus().equals(Status.DRAFT.getStatus())) {
+                throw new PostNotFoundException("Post not found in your account");
+            }
+            return post;
+        } catch (NoSuchElementException | NullPointerException e) {
+            throw new PostIdException("Post ID: '" + postId + "' does not exists");
+        }
+    }
+
     public Post findById(String username, String postId) {
         try {
             Post post = postRepository.findPostById(Long.parseLong(postId));
-            if (!(post.getAuthor().equals(username) && post.getStatus().equals(Status.DRAFT.getStatus()) || getUserRole(username).equals(Role.ADMIN.getRole()))) {
+            if (!(post.getAuthor().equals(username) || getUserRole(username).equals(Role.ADMIN.getRole()))) {
                 throw new PostNotFoundException("Post not found in your account");
             }
             return post;
@@ -78,7 +94,7 @@ public class PostService {
 
     public void delete(String username, String postId) {
         Post post = findById(username, postId);
-        if (post.getAuthor().equals(username) && getUserRole(username).equals(Role.AUTHOR.getRole())|| getUserRole(username).equals(Role.ADMIN.getRole())) {
+        if (post.getAuthor().equals(username) && getUserRole(username).equals(Role.AUTHOR.getRole()) || getUserRole(username).equals(Role.ADMIN.getRole())) {
             postRepository.delete(post);
         } else
             throw new PostIdException("You do not have permission to delete the post.");
