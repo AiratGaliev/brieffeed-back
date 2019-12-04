@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/categories")
@@ -22,21 +23,27 @@ public class CategoryController {
 	private MapValidationErrorService mapValidationErrorService;
 
 	@PostMapping("/create")
-	public ResponseEntity<?> create(@Valid @RequestBody Category category, BindingResult result) {
+	public ResponseEntity<?> create(@Valid @RequestBody Category category, BindingResult result, Principal principal) {
 		ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
 		if (errorMap != null)
 			return errorMap;
-		Category category1 = categoryService.create(category);
+		Category category1 = categoryService.create(category, principal.getName());
 		return new ResponseEntity<>(category1, HttpStatus.CREATED);
 	}
 
-	@PatchMapping("/{categoryId}/update")
+	@PatchMapping("/{categoryId}")
 	public ResponseEntity<?> update(@Valid @RequestBody Category category, BindingResult result,
-			@PathVariable String categoryId) {
+									@PathVariable String categoryId, Principal principal) {
 		ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
 		if (errorMap != null)
 			return errorMap;
-		Category category1 = categoryService.update(category, categoryId);
+		Category category1 = categoryService.update(category, categoryId, principal.getName());
 		return new ResponseEntity<>(category1, HttpStatus.OK);
+	}
+
+	@DeleteMapping("/{categoryId}")
+	public ResponseEntity<?> delete(@PathVariable String categoryId, Principal principal) {
+		categoryService.delete(principal.getName(), categoryId);
+		return new ResponseEntity<>("Category with ID: " + categoryId + " was deleted", HttpStatus.OK);
 	}
 }
