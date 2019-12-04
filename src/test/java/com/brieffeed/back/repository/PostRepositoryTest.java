@@ -47,7 +47,7 @@ public class PostRepositoryTest {
         entityManager.persistAndFlush(user);
         Category category = new Category("Test Category");
         categoryRepository.save(category);
-        Blog blog = new Blog(category, "Test Blog", "Test Blog Description");
+        Blog blog = new Blog(category, "Test Blog", user, "Test Blog Description", user.getUsername());
         blogRepository.save(blog);
         Post post = new Post("Test Post", "Test Post Content", blog, user, user.getUsername(), Status.DRAFT.getStatus());
         entityManager.persistAndFlush(post);
@@ -61,7 +61,7 @@ public class PostRepositoryTest {
         entityManager.persistAndFlush(user);
         Category category = new Category("Test Category");
         categoryRepository.save(category);
-        Blog blog = new Blog(category, "Test Blog", "Test Blog Description");
+        Blog blog = new Blog(category, "Test Blog", user, "Test Blog Description", user.getUsername());
         blogRepository.save(blog);
         entityManager.persistAndFlush(new Post("Test Post", "Test Post Content", blog, user, user.getUsername(), Status.DRAFT.getStatus()));
         entityManager.persistAndFlush(new Post("Test Post", "Test Post Content", blog, user, user.getUsername(), Status.DRAFT.getStatus()));

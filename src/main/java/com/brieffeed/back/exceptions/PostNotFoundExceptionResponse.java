@@ -1,17 +1,17 @@
 package com.brieffeed.back.exceptions;
 
 public class PostNotFoundExceptionResponse {
-    private String PostNotFound;
+    private String postNotFound;
 
     public PostNotFoundExceptionResponse(String postNotFound) {
-        PostNotFound = postNotFound;
+        this.postNotFound = postNotFound;
     }
 
     public String getPostNotFound() {
-        return PostNotFound;
+        return postNotFound;
     }
 
     public void setPostNotFound(String postNotFound) {
-        PostNotFound = postNotFound;
+        this.postNotFound = postNotFound;
     }
 }

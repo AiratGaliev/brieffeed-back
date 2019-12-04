@@ -13,4 +13,6 @@ public interface CategoryRepository extends CrudRepository<Category, Long> {
 
     @Override
     Iterable<Category> findAllById(Iterable<Long> iterable);
+
+    void delete(Category category);
 }

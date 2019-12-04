@@ -1,17 +1,17 @@
 package com.brieffeed.back.exceptions;
 
 public class CategoryNotFoundExceptionResponse {
-    private String CategoryNotFound;
+    private String categoryNotFound;
 
     public CategoryNotFoundExceptionResponse(String categoryNotFound) {
-        CategoryNotFound = categoryNotFound;
+        this.categoryNotFound = categoryNotFound;
     }
 
     public String getCategoryNotFound() {
-        return CategoryNotFound;
+        return categoryNotFound;
     }
 
     public void setCategoryNotFound(String categoryNotFound) {
-        CategoryNotFound = categoryNotFound;
+        this.categoryNotFound = categoryNotFound;
     }
 }

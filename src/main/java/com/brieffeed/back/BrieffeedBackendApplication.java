@@ -44,11 +44,11 @@ public class BrieffeedBackendApplication {
             userRepository.save(user);
             Category category = new Category("Test Category");
             categoryRepository.save(category);
-            Blog blog = new Blog(category, "Test Blog", "Test Blog Description");
+            Blog blog = new Blog(category, "Test Blog", user, "Test Blog Description", user.getUsername());
             blogRepository.save(blog);
-            postRepository.save(new Post("Test Post 1", "Test Post Content 1", blog, user, "test", Status.DRAFT.getStatus()));
-            postRepository.save(new Post("Test Post 2", "Test Post Content 2", blog, user, "test", Status.DRAFT.getStatus()));
-            postRepository.save(new Post("Test Post 3", "Test Post Content 2", blog, user, "test", Status.PUBLISH.getStatus()));
+            postRepository.save(new Post("Test Post 1", "Test Post Content 1", blog, user, user.getUsername(), Status.DRAFT.getStatus()));
+            postRepository.save(new Post("Test Post 2", "Test Post Content 2", blog, user, user.getUsername(), Status.DRAFT.getStatus()));
+            postRepository.save(new Post("Test Post 3", "Test Post Content 2", blog, user, user.getUsername(), Status.PUBLISH.getStatus()));
 
         };
     }

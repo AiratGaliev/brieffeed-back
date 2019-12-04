@@ -78,7 +78,7 @@ public class PostService {
             newPost.setAuthor(user.getUsername());
             return postRepository.save(newPost);
         } else
-            throw new PostNotFoundException("You do not have permission to create posts.");
+            throw new PostNotFoundException("You do not have permission to create post.");
     }
 
     public Post update(Post updatedPost, String postId, String username) {
