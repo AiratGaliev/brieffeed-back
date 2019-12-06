@@ -1,7 +1,6 @@
 package com.brieffeed.back.web;
 
 import com.brieffeed.back.domain.Blog;
-import com.brieffeed.back.domain.Post;
 import com.brieffeed.back.services.BlogService;
 import com.brieffeed.back.services.MapValidationErrorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,11 @@ public class BlogController {
 
     @Autowired
     private MapValidationErrorService mapValidationErrorService;
+
+    @GetMapping("")
+    public Iterable<Blog> getCategories() {
+        return blogService.findAll();
+    }
 
     @GetMapping("/my")
     public Iterable<Blog> getMyPosts(Principal principal) {
@@ -47,9 +51,9 @@ public class BlogController {
         return new ResponseEntity<>(blog1, HttpStatus.OK);
     }
 
-	@DeleteMapping("/{blogId}")
-	public ResponseEntity<?> delete(@PathVariable String blogId, Principal principal) {
-		blogService.delete(principal.getName(), blogId);
-		return new ResponseEntity<>("Blog with ID: " + blogId + " was deleted", HttpStatus.OK);
-	}
+    @DeleteMapping("/{blogId}")
+    public ResponseEntity<?> delete(@PathVariable String blogId, Principal principal) {
+        blogService.delete(principal.getName(), blogId);
+        return new ResponseEntity<>("Blog with ID: " + blogId + " was deleted", HttpStatus.OK);
+    }
 }

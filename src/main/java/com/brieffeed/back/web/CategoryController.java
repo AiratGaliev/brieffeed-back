@@ -1,7 +1,6 @@
 package com.brieffeed.back.web;
 
 import com.brieffeed.back.domain.Category;
-import com.brieffeed.back.domain.Post;
 import com.brieffeed.back.services.CategoryService;
 import com.brieffeed.back.services.MapValidationErrorService;
 import org.springframework.beans.factory.annotation.Autowired;

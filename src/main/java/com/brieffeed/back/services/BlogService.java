@@ -1,7 +1,6 @@
 package com.brieffeed.back.services;
 
 import com.brieffeed.back.domain.Blog;
-import com.brieffeed.back.domain.Post;
 import com.brieffeed.back.domain.Role;
 import com.brieffeed.back.domain.User;
 import com.brieffeed.back.exceptions.PostIdException;
@@ -9,10 +8,10 @@ import com.brieffeed.back.exceptions.PostNotFoundException;
 import com.brieffeed.back.repositories.BlogRepository;
 import com.brieffeed.back.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class BlogService {
@@ -24,6 +23,10 @@ public class BlogService {
 
     private String getUserRole(String username) {
         return userRepository.findByUserName(username).getRole();
+    }
+
+    public Iterable<Blog> findAll() {
+        return blogRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     public Blog create(Blog newBlog, String username) {
@@ -39,10 +42,6 @@ public class BlogService {
 	public Iterable<Blog> findAllByAuthor(String username) {
 		return blogRepository.findAllByAuthor(username);
 	}
-
-    public Blog create(Blog blog) {
-        return blogRepository.save(blog);
-    }
 
     public Blog findById(String username, String blogId) {
         try {
