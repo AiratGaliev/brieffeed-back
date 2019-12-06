@@ -1,6 +1,7 @@
 package com.brieffeed.back.web;
 
 import com.brieffeed.back.domain.Category;
+import com.brieffeed.back.domain.Post;
 import com.brieffeed.back.services.CategoryService;
 import com.brieffeed.back.services.MapValidationErrorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,11 @@ public class CategoryController {
 
 	@Autowired
 	private MapValidationErrorService mapValidationErrorService;
+
+	@GetMapping("")
+	public Iterable<Category> getCategories() {
+		return categoryService.findAll();
+	}
 
 	@PostMapping("/create")
 	public ResponseEntity<?> create(@Valid @RequestBody Category category, BindingResult result, Principal principal) {

@@ -1,19 +1,15 @@
 package com.brieffeed.back.services;
 
 import com.brieffeed.back.domain.Category;
-import com.brieffeed.back.domain.Post;
 import com.brieffeed.back.domain.Role;
 import com.brieffeed.back.exceptions.CategoryIdException;
 import com.brieffeed.back.exceptions.CategoryNotFoundException;
-import com.brieffeed.back.exceptions.PostIdException;
-import com.brieffeed.back.exceptions.PostNotFoundException;
 import com.brieffeed.back.repositories.CategoryRepository;
 import com.brieffeed.back.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -25,6 +21,10 @@ public class CategoryService {
 
     private String getUserRole(String username) {
         return userRepository.findByUserName(username).getRole();
+    }
+
+    public Iterable<Category> findAll() {
+        return categoryRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     public Category create(Category newCategory, String username) {

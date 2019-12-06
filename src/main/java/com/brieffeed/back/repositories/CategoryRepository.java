@@ -1,7 +1,7 @@
 package com.brieffeed.back.repositories;
 
 import com.brieffeed.back.domain.Category;
-import com.brieffeed.back.domain.Post;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface CategoryRepository extends CrudRepository<Category, Long> {
     Category findCategoriesById(Long aLong);
 
-    Iterable<Category> findAll();
+    Iterable<Category> findAll(Sort sort);
 
     @Override
     Iterable<Category> findAllById(Iterable<Long> iterable);

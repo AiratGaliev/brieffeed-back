@@ -35,6 +35,7 @@ public class Blog {
     @JoinColumn(name = "category_id"
 //	, nullable = false
     )
+    @JsonIgnore
     private Category category;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "blog", orphanRemoval = true)

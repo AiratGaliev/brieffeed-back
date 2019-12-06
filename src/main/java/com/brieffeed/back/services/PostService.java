@@ -9,6 +9,7 @@ import com.brieffeed.back.exceptions.PostNotFoundException;
 import com.brieffeed.back.repositories.PostRepository;
 import com.brieffeed.back.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -28,14 +29,14 @@ public class PostService {
     }
 
     public Iterable<Post> findAll() {
-        return postRepository.findAllByStatus(Status.PUBLISH.getStatus());
+        return postRepository.findAllByStatus(Status.PUBLISH.getStatus(), Sort.by(Sort.Direction.DESC, "createdDate"));
     }
 
     public Iterable<Post> findAll(String username) {
         if (getUserRole(username).equals(Role.ADMIN.getRole()))
-            return postRepository.findAll();
+            return postRepository.findAll(Sort.by(Sort.Direction.DESC, "createdDate"));
         else {
-            List<Post> posts = (List<Post>) postRepository.findAllByStatus(Status.PUBLISH.getStatus());
+            List<Post> posts = (List<Post>) postRepository.findAllByStatus(Status.PUBLISH.getStatus(), Sort.by(Sort.Direction.DESC, "createdDate"));
             if (getUserRole(username).equals(Role.AUTHOR.getRole())) {
                 posts.addAll((Collection<? extends Post>) postRepository.findAllByAuthorAndStatus(username, Status.DRAFT.getStatus()));
             }

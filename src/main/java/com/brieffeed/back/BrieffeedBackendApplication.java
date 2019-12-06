@@ -72,7 +72,7 @@ public class BrieffeedBackendApplication {
             postRepository.save(new Post("Test Post 2", "Test Post Content 2", blog2, author, author.getUsername(), Status.PUBLISH.getStatus()));
             postRepository.save(new Post("Test Post 3", "Test Post Content 3", blog3, author, author.getUsername(), Status.PUBLISH.getStatus()));
             postRepository.save(new Post("Test Post 4", "Test Post Content 4", blog4, author, author.getUsername(), Status.PUBLISH.getStatus()));
-            postRepository.save(new Post("Test Post 4", "Test Post Content 4", blog5, author, author.getUsername(), Status.PUBLISH.getStatus()));
+            postRepository.save(new Post("Test Post 5", "Test Post Content 5", blog5, author, author.getUsername(), Status.PUBLISH.getStatus()));
         };
     }
 
