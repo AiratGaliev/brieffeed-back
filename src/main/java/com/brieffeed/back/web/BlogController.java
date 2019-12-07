@@ -1,6 +1,7 @@
 package com.brieffeed.back.web;
 
 import com.brieffeed.back.domain.Blog;
+import com.brieffeed.back.domain.Category;
 import com.brieffeed.back.services.BlogService;
 import com.brieffeed.back.services.MapValidationErrorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,12 @@ public class BlogController {
             return errorMap;
         Blog blog1 = blogService.create(blog, principal.getName());
         return new ResponseEntity<>(blog1, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{blogId}")
+    public ResponseEntity<?> getPostById(@PathVariable String blogId) {
+        Blog blog = blogService.findById(blogId);
+        return new ResponseEntity<>(blog, HttpStatus.OK);
     }
 
     @PatchMapping("/{blogId}")

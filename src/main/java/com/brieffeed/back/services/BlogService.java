@@ -39,13 +39,17 @@ public class BlogService {
             throw new PostNotFoundException("You do not have permission to create blog.");
     }
 
-	public Iterable<Blog> findAllByAuthor(String username) {
-		return blogRepository.findAllByAuthor(username);
-	}
+    public Iterable<Blog> findAllByAuthor(String username) {
+        return blogRepository.findAllByAuthor(username);
+    }
+
+    public Blog findById(String blogId) {
+        return blogRepository.findBlogById(Long.parseLong(blogId));
+    }
 
     public Blog findById(String username, String blogId) {
         try {
-            Blog blog = blogRepository.findBlogById(Long.parseLong(blogId));
+            Blog blog = findById(blogId);
             if (!(blog.getAuthor().equals(username) || getUserRole(username).equals(Role.ADMIN.getRole()))) {
                 throw new PostNotFoundException("Blog not found in your account");
             }

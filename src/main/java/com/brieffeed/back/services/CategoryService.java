@@ -35,9 +35,13 @@ public class CategoryService {
             throw new CategoryNotFoundException("You do not have permission to create category.");
     }
 
+    public Category findById(String categoryId) {
+        return categoryRepository.findCategoriesById(Long.parseLong(categoryId));
+    }
+
     public Category findById(String username, String categoryId) {
         try {
-            Category category = categoryRepository.findCategoriesById(Long.parseLong(categoryId));
+            Category category = findById(categoryId);
             if (!getUserRole(username).equals(Role.ADMIN.getRole())) {
                 throw new CategoryNotFoundException("Category not found");
             }

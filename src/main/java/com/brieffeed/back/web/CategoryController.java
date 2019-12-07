@@ -1,6 +1,7 @@
 package com.brieffeed.back.web;
 
 import com.brieffeed.back.domain.Category;
+import com.brieffeed.back.domain.Post;
 import com.brieffeed.back.services.CategoryService;
 import com.brieffeed.back.services.MapValidationErrorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,12 @@ public class CategoryController {
 			return errorMap;
 		Category category1 = categoryService.create(category, principal.getName());
 		return new ResponseEntity<>(category1, HttpStatus.CREATED);
+	}
+
+	@GetMapping("/{categoryId}")
+	public ResponseEntity<?> getPostById(@PathVariable String categoryId) {
+		Category category = categoryService.findById(categoryId);
+		return new ResponseEntity<>(category, HttpStatus.OK);
 	}
 
 	@PatchMapping("/{categoryId}")
