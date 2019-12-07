@@ -36,7 +36,7 @@ public class CategoryService {
     }
 
     public Category findById(String categoryId) {
-        return categoryRepository.findCategoriesById(Long.parseLong(categoryId));
+        return categoryRepository.findCategoryById(Long.parseLong(categoryId));
     }
 
     public Category findById(String username, String categoryId) {
