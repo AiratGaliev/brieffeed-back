@@ -22,6 +22,9 @@ public class Blog {
     @NotBlank(message = "Blog description is required")
     private String description;
 
+    @Lob
+    private Byte[] image;
+
     private String author;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
@@ -35,7 +38,6 @@ public class Blog {
     @JoinColumn(name = "category_id"
 //	, nullable = false
     )
-    @JsonIgnore
     private Category category;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "blog", orphanRemoval = true)
@@ -74,6 +76,14 @@ public class Blog {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(Byte[] image) {
+        this.image = image;
     }
 
     public List<Post> getPosts() {

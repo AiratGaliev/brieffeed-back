@@ -1,7 +1,10 @@
 package com.brieffeed.back.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import com.brieffeed.back.domain.*;
+import com.brieffeed.back.repositories.BlogRepository;
+import com.brieffeed.back.repositories.CategoryRepository;
+import com.brieffeed.back.repositories.PostRepository;
+import com.brieffeed.back.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.brieffeed.back.domain.Blog;
-import com.brieffeed.back.domain.Category;
-import com.brieffeed.back.domain.Post;
-import com.brieffeed.back.domain.Role;
-import com.brieffeed.back.domain.Status;
-import com.brieffeed.back.domain.User;
-import com.brieffeed.back.repositories.BlogRepository;
-import com.brieffeed.back.repositories.CategoryRepository;
-import com.brieffeed.back.repositories.PostRepository;
-import com.brieffeed.back.repositories.UserRepository;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest

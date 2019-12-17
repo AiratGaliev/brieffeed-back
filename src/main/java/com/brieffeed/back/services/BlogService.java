@@ -6,6 +6,7 @@ import com.brieffeed.back.domain.User;
 import com.brieffeed.back.exceptions.PostIdException;
 import com.brieffeed.back.exceptions.PostNotFoundException;
 import com.brieffeed.back.repositories.BlogRepository;
+import com.brieffeed.back.repositories.CategoryRepository;
 import com.brieffeed.back.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -20,6 +21,9 @@ public class BlogService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     private String getUserRole(String username) {
         return userRepository.findByUserName(username).getRole();
@@ -64,7 +68,6 @@ public class BlogService {
         if (originalBlog.getAuthor().equals(username) && getUserRole(username).equals(Role.AUTHOR.getRole())) {
             originalBlog.setName(updatedBlog.getName());
             originalBlog.setDescription(updatedBlog.getDescription());
-            originalBlog.setCategory(updatedBlog.getCategory());
             return blogRepository.save(originalBlog);
         } else
             throw new PostIdException("You do not have permission to update the blog.");
