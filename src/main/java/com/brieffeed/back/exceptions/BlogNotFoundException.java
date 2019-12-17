@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class BlogNotFoundException extends RuntimeException {
+
+    private static final long serialVersionUID = -3409324914036043226L;
+
     public BlogNotFoundException(String message) {
         super(message);
     }

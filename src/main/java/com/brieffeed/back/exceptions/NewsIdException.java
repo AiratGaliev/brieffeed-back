@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class NewsIdException extends RuntimeException {
+
+    private static final long serialVersionUID = -8264882533247569774L;
+
     public NewsIdException(String message) {
         super(message);
     }

@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class NewsNotFoundException extends RuntimeException {
+
+    private static final long serialVersionUID = 6468079145395117740L;
+
     public NewsNotFoundException(String message) {
         super(message);
     }

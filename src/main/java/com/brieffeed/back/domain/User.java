@@ -18,6 +18,9 @@ import java.util.List;
 @Table(name = "user_entity")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User implements UserDetails {
+
+    private static final long serialVersionUID = -7918459564970482168L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, updatable = false, unique = true)
@@ -37,12 +40,7 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    @NotBlank(message = "Please enter your first name")
     private String firstName;
-
-    @Column(nullable = false)
-    @NotBlank(message = "Please enter your last name")
     private String lastName;
 
     @Column(nullable = false)

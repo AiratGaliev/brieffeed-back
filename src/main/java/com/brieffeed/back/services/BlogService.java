@@ -6,7 +6,6 @@ import com.brieffeed.back.domain.User;
 import com.brieffeed.back.exceptions.PostIdException;
 import com.brieffeed.back.exceptions.PostNotFoundException;
 import com.brieffeed.back.repositories.BlogRepository;
-import com.brieffeed.back.repositories.CategoryRepository;
 import com.brieffeed.back.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -16,14 +15,12 @@ import java.util.NoSuchElementException;
 
 @Service
 public class BlogService {
+
     @Autowired
     private BlogRepository blogRepository;
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
 
     private String getUserRole(String username) {
         return userRepository.findByUserName(username).getRole();
@@ -75,7 +72,8 @@ public class BlogService {
 
     public void delete(String username, String blogId) {
         Blog blog = findById(username, blogId);
-        if (blog.getAuthor().equals(username) && getUserRole(username).equals(Role.AUTHOR.getRole()) || getUserRole(username).equals(Role.ADMIN.getRole())) {
+        if (blog.getAuthor().equals(username) && getUserRole(username).equals(Role.AUTHOR.getRole())
+                || getUserRole(username).equals(Role.ADMIN.getRole())) {
             blogRepository.delete(blog);
         } else
             throw new PostIdException("You do not have permission to delete the blog.");
