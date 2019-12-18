@@ -35,24 +35,24 @@ public class CategoryService {
             throw new CategoryNotFoundException("You do not have permission to create category.");
     }
 
-    public Category findById(String categoryId) {
-        return categoryRepository.findCategoryById(Long.parseLong(categoryId));
+    public Category findById(String id) {
+        return categoryRepository.findCategoryById(Long.parseLong(id));
     }
 
-    public Category findById(String username, String categoryId) {
+    public Category findById(String username, String id) {
         try {
-            Category category = findById(categoryId);
+            Category category = findById(id);
             if (!getUserRole(username).equals(Role.ADMIN.getRole())) {
                 throw new CategoryNotFoundException("Category not found");
             }
             return category;
         } catch (NoSuchElementException | NullPointerException e) {
-            throw new CategoryIdException("Category ID: '" + categoryId + "' does not exists");
+            throw new CategoryIdException("Category ID: '" + id + "' does not exists");
         }
     }
 
-    public Category update(Category category, String categoryId, String username) {
-        Category originalCategory = findById(username, categoryId);
+    public Category update(Category category, String id, String username) {
+        Category originalCategory = findById(username, id);
         if (getUserRole(username).equals(Role.ADMIN.getRole())) {
             originalCategory.setName(category.getName());
             return categoryRepository.save(originalCategory);
@@ -60,8 +60,8 @@ public class CategoryService {
             throw new CategoryIdException("You do not have permission to update the category.");
     }
 
-    public void delete(String username, String categoryId) {
-        Category category = findById(username, categoryId);
+    public void delete(String username, String id) {
+        Category category = findById(username, id);
         if (getUserRole(username).equals(Role.ADMIN.getRole())) {
             categoryRepository.delete(category);
         } else

@@ -46,30 +46,30 @@ public class PostController {
         return new ResponseEntity<>(post1, HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "/{postId}")
-    public ResponseEntity<?> getPostById(@PathVariable String postId) {
-        Post post = postService.findById(postId);
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<?> getPostById(@PathVariable String id) {
+        Post post = postService.findById(id);
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/{postId}", params = {"principal"})
-    public ResponseEntity<?> getPostById(@PathVariable String postId, Principal principal) {
-        Post post = postService.findById(principal.getName(), postId);
+    @GetMapping(path = "/{id}", params = {"principal"})
+    public ResponseEntity<?> getPostById(@PathVariable String id, Principal principal) {
+        Post post = postService.findById(principal.getName(), id);
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
-    @PatchMapping("/{postId}")
-    public ResponseEntity<?> update(@Valid @RequestBody Post post, BindingResult result, @PathVariable String postId, Principal principal) {
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> update(@Valid @RequestBody Post post, BindingResult result, @PathVariable String id, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
         if (errorMap != null)
             return errorMap;
-        Post post1 = postService.update(post, postId, principal.getName());
+        Post post1 = postService.update(post, id, principal.getName());
         return new ResponseEntity<>(post1, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{postId}")
-    public ResponseEntity<?> delete(@PathVariable String postId, Principal principal) {
-        postService.delete(principal.getName(), postId);
-        return new ResponseEntity<>("Post with ID: " + postId + " was deleted", HttpStatus.OK);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id, Principal principal) {
+        postService.delete(principal.getName(), id);
+        return new ResponseEntity<>("Post with ID: " + id + " was deleted", HttpStatus.OK);
     }
 }

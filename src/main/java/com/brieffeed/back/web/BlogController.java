@@ -41,25 +41,25 @@ public class BlogController {
         return new ResponseEntity<>(blog1, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{blogId}")
-    public ResponseEntity<?> getPostById(@PathVariable String blogId) {
-        Blog blog = blogService.findById(blogId);
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getPostById(@PathVariable String id) {
+        Blog blog = blogService.findById(id);
         return new ResponseEntity<>(blog, HttpStatus.OK);
     }
 
-    @PatchMapping("/{blogId}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> update(@Valid @RequestBody Blog blog, BindingResult result,
-                                    @PathVariable String blogId, Principal principal) {
+                                    @PathVariable String id, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
         if (errorMap != null)
             return errorMap;
-        Blog blog1 = blogService.update(blog, blogId, principal.getName());
+        Blog blog1 = blogService.update(blog, id, principal.getName());
         return new ResponseEntity<>(blog1, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{blogId}")
-    public ResponseEntity<?> delete(@PathVariable String blogId, Principal principal) {
-        blogService.delete(principal.getName(), blogId);
-        return new ResponseEntity<>("Blog with ID: " + blogId + " was deleted", HttpStatus.OK);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id, Principal principal) {
+        blogService.delete(principal.getName(), id);
+        return new ResponseEntity<>("Blog with ID: " + id + " was deleted", HttpStatus.OK);
     }
 }

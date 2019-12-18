@@ -36,25 +36,25 @@ public class CategoryController {
 		return new ResponseEntity<>(category1, HttpStatus.CREATED);
 	}
 
-	@GetMapping("/{categoryId}")
-	public ResponseEntity<?> getPostById(@PathVariable String categoryId) {
-		Category category = categoryService.findById(categoryId);
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getPostById(@PathVariable String id) {
+		Category category = categoryService.findById(id);
 		return new ResponseEntity<>(category, HttpStatus.OK);
 	}
 
-	@PatchMapping("/{categoryId}")
+	@PatchMapping("/{id}")
 	public ResponseEntity<?> update(@Valid @RequestBody Category category, BindingResult result,
-									@PathVariable String categoryId, Principal principal) {
+									@PathVariable String id, Principal principal) {
 		ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
 		if (errorMap != null)
 			return errorMap;
-		Category category1 = categoryService.update(category, categoryId, principal.getName());
+		Category category1 = categoryService.update(category, id, principal.getName());
 		return new ResponseEntity<>(category1, HttpStatus.OK);
 	}
 
-	@DeleteMapping("/{categoryId}")
-	public ResponseEntity<?> delete(@PathVariable String categoryId, Principal principal) {
-		categoryService.delete(principal.getName(), categoryId);
-		return new ResponseEntity<>("Category with ID: " + categoryId + " was deleted", HttpStatus.OK);
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> delete(@PathVariable String id, Principal principal) {
+		categoryService.delete(principal.getName(), id);
+		return new ResponseEntity<>("Category with ID: " + id + " was deleted", HttpStatus.OK);
 	}
 }

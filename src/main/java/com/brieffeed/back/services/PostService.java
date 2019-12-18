@@ -48,27 +48,27 @@ public class PostService {
         return postRepository.findAllByAuthor(username);
     }
 
-    public Post findById(String postId) {
+    public Post findById(String id) {
         try {
-            Post post = postRepository.findPostById(Long.parseLong(postId));
+            Post post = postRepository.findPostById(Long.parseLong(id));
             if (post.getStatus().equals(Status.DRAFT.getStatus())) {
                 throw new PostNotFoundException("Post not found in your account");
             }
             return post;
         } catch (NoSuchElementException | NullPointerException e) {
-            throw new PostIdException("Post ID: '" + postId + "' does not exists");
+            throw new PostIdException("Post ID: '" + id + "' does not exists");
         }
     }
 
-    public Post findById(String username, String postId) {
+    public Post findById(String username, String id) {
         try {
-            Post post = postRepository.findPostById(Long.parseLong(postId));
+            Post post = postRepository.findPostById(Long.parseLong(id));
             if (!(post.getAuthor().equals(username) || getUserRole(username).equals(Role.ADMIN.getRole()))) {
                 throw new PostNotFoundException("Post not found in your account");
             }
             return post;
         } catch (NoSuchElementException | NullPointerException e) {
-            throw new PostIdException("Post ID: '" + postId + "' does not exists");
+            throw new PostIdException("Post ID: '" + id + "' does not exists");
         }
     }
 
@@ -82,8 +82,8 @@ public class PostService {
             throw new PostNotFoundException("You do not have permission to create post.");
     }
 
-    public Post update(Post updatedPost, String postId, String username) {
-        Post originalPost = findById(username, postId);
+    public Post update(Post updatedPost, String id, String username) {
+        Post originalPost = findById(username, id);
         if (originalPost.getAuthor().equals(username) && getUserRole(username).equals(Role.AUTHOR.getRole())) {
             originalPost.setTitle(updatedPost.getTitle());
             originalPost.setContent(updatedPost.getContent());
@@ -93,8 +93,8 @@ public class PostService {
             throw new PostIdException("You do not have permission to update the post.");
     }
 
-    public void delete(String username, String postId) {
-        Post post = findById(username, postId);
+    public void delete(String username, String id) {
+        Post post = findById(username, id);
         if (post.getAuthor().equals(username) && getUserRole(username).equals(Role.AUTHOR.getRole()) || getUserRole(username).equals(Role.ADMIN.getRole())) {
             postRepository.delete(post);
         } else

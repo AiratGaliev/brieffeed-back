@@ -3,8 +3,8 @@ package com.brieffeed.back.services;
 import com.brieffeed.back.domain.Blog;
 import com.brieffeed.back.domain.Role;
 import com.brieffeed.back.domain.User;
-import com.brieffeed.back.exceptions.PostIdException;
-import com.brieffeed.back.exceptions.PostNotFoundException;
+import com.brieffeed.back.exceptions.BlogIdException;
+import com.brieffeed.back.exceptions.BlogNotFoundException;
 import com.brieffeed.back.repositories.BlogRepository;
 import com.brieffeed.back.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,45 +37,45 @@ public class BlogService {
             newBlog.setAuthor(user.getUsername());
             return blogRepository.save(newBlog);
         } else
-            throw new PostNotFoundException("You do not have permission to create blog.");
+            throw new BlogNotFoundException("You do not have permission to create blog.");
     }
 
     public Iterable<Blog> findAllByAuthor(String username) {
         return blogRepository.findAllByAuthor(username);
     }
 
-    public Blog findById(String blogId) {
-        return blogRepository.findBlogById(Long.parseLong(blogId));
+    public Blog findById(String id) {
+        return blogRepository.findBlogById(Long.parseLong(id));
     }
 
-    public Blog findById(String username, String blogId) {
+    public Blog findById(String username, String id) {
         try {
-            Blog blog = findById(blogId);
+            Blog blog = findById(id);
             if (!(blog.getAuthor().equals(username) || getUserRole(username).equals(Role.ADMIN.getRole()))) {
-                throw new PostNotFoundException("Blog not found in your account");
+                throw new BlogNotFoundException("Blog not found in your account");
             }
             return blog;
         } catch (NoSuchElementException | NullPointerException e) {
-            throw new PostIdException("Blog ID: '" + blogId + "' does not exists");
+            throw new BlogIdException("Blog ID: '" + id + "' does not exists");
         }
     }
 
-    public Blog update(Blog updatedBlog, String blogId, String username) {
-        Blog originalBlog = findById(username, blogId);
+    public Blog update(Blog updatedBlog, String id, String username) {
+        Blog originalBlog = findById(username, id);
         if (originalBlog.getAuthor().equals(username) && getUserRole(username).equals(Role.AUTHOR.getRole())) {
             originalBlog.setName(updatedBlog.getName());
             originalBlog.setDescription(updatedBlog.getDescription());
             return blogRepository.save(originalBlog);
         } else
-            throw new PostIdException("You do not have permission to update the blog.");
+            throw new BlogIdException("You do not have permission to update the blog.");
     }
 
-    public void delete(String username, String blogId) {
-        Blog blog = findById(username, blogId);
+    public void delete(String username, String id) {
+        Blog blog = findById(username, id);
         if (blog.getAuthor().equals(username) && getUserRole(username).equals(Role.AUTHOR.getRole())
                 || getUserRole(username).equals(Role.ADMIN.getRole())) {
             blogRepository.delete(blog);
         } else
-            throw new PostIdException("You do not have permission to delete the blog.");
+            throw new BlogIdException("You do not have permission to delete the blog.");
     }
 }
