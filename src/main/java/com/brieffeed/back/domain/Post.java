@@ -12,13 +12,10 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="post")
+@Table(name = "post")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Post {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, updatable = false, unique = true)
-    private Long id;
+public class Post extends AbstractEntity {
+
     @Column(nullable = false)
     @NotBlank(message = "Post title is required")
     private String title;
@@ -146,9 +143,4 @@ public class Post {
     public List<Comment> getComments() {
         return comments;
     }
-
-    public Long getPostId() {
-        return id;
-    }
-
 }

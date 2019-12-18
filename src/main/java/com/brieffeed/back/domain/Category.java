@@ -30,7 +30,7 @@ public class Category {
         this.name = name;
     }
 
-    public Long getCategoryId() {
+    public Long getId() {
         return id;
     }
 

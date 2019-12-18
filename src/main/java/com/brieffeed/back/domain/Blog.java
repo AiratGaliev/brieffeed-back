@@ -11,11 +11,8 @@ import java.util.List;
 @Entity
 @Table(name = "blog")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Blog {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, updatable = false, unique = true)
-    private Long id;
+public class Blog extends AbstractEntity {
+
     @Column(nullable = false)
     @NotBlank(message = "Blog name is required")
     private String name;
@@ -88,10 +85,6 @@ public class Blog {
 
     public List<Post> getPosts() {
         return posts;
-    }
-
-    public Long getBlogId() {
-        return id;
     }
 
     public Category getCategory() {

@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -17,19 +18,15 @@ import java.util.List;
 @Entity
 @Table(name = "user_entity")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class User implements UserDetails {
+public class User extends AbstractEntity implements UserDetails {
 
     private static final long serialVersionUID = -7918459564970482168L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false, updatable = false, unique = true)
-    private Long id;
 
     @Column(nullable = false)
     private String role = Role.USER.getRole();
 
     @Column(nullable = false, unique = true)
+    @Size(min = 2, max = 50, message = "Username must be between 2 and 50 characters")
     @NotBlank(message = "Username is required")
     private String userName;
 
@@ -37,6 +34,7 @@ public class User implements UserDetails {
     private String phone;
 
     @Email(message = "Username needs to be an email")
+    @Size(max = 100, message = "Email address must not be more than 100 characters")
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -46,9 +44,11 @@ public class User implements UserDetails {
     @Column(nullable = false)
     @NotBlank(message = "Password field is required")
     private String password;
+
     @Transient
     private String confirmPassword;
     private String description, city;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
     private Date createdDate, updatedDate;
 
@@ -85,10 +85,6 @@ public class User implements UserDetails {
     @PreUpdate
     protected void onUpdate() {
         this.updatedDate = new Date();
-    }
-
-    public Long getUserId() {
-        return id;
     }
 
     public String getPassword() {

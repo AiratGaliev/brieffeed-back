@@ -7,11 +7,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "comments")
-public class Comment {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(nullable = false, updatable = false, unique = true)
-	private Long id;
+public class Comment extends AbstractEntity {
+
 	@Column(nullable = false)
 	private String text;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
@@ -37,10 +34,6 @@ public class Comment {
 	@PreUpdate
 	protected void onUpdate() {
 		this.updatedDate = new Date();
-	}
-
-	public Long getId() {
-		return id;
 	}
 
 	public String getText() {
