@@ -1,11 +1,10 @@
 package com.brieffeed.back.services;
 
-import com.brieffeed.back.domain.Post;
-import com.brieffeed.back.domain.Role;
-import com.brieffeed.back.domain.Status;
-import com.brieffeed.back.domain.User;
+import com.brieffeed.back.domain.*;
 import com.brieffeed.back.exceptions.PostIdException;
 import com.brieffeed.back.exceptions.PostNotFoundException;
+import com.brieffeed.back.payload.PostRequest;
+import com.brieffeed.back.repositories.BlogRepository;
 import com.brieffeed.back.repositories.PostRepository;
 import com.brieffeed.back.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +22,9 @@ public class PostService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BlogRepository blogRepository;
 
     private String getUserRole(String username) {
         return userRepository.findByUserName(username).getRole();
@@ -72,22 +74,23 @@ public class PostService {
         }
     }
 
-    public Post create(Post newPost, String username) {
+    public Post create(PostRequest postRequest, String username) {
         User user = userRepository.findByUserName(username);
+        Blog blog = blogRepository.findBlogById(postRequest.getBlogId());
         if (user.getRole().equals(Role.AUTHOR.getRole())) {
-            newPost.setUser(user);
-            newPost.setAuthor(user.getUsername());
-            return postRepository.save(newPost);
+            Post post = new Post(postRequest.getTitle(), postRequest.getContent(), blog, user, user.getUsername(), postRequest.getStatus());
+            return postRepository.save(post);
         } else
             throw new PostNotFoundException("You do not have permission to create post.");
     }
 
-    public Post update(Post updatedPost, String id, String username) {
+    public Post update(PostRequest postRequest, String id, String username) {
         Post originalPost = findById(username, id);
         if (originalPost.getAuthor().equals(username) && getUserRole(username).equals(Role.AUTHOR.getRole())) {
-            originalPost.setTitle(updatedPost.getTitle());
-            originalPost.setContent(updatedPost.getContent());
-            originalPost.setStatus(updatedPost.getStatus());
+            originalPost.setTitle(postRequest.getTitle());
+            originalPost.setContent(postRequest.getContent());
+            originalPost.setStatus(postRequest.getStatus());
+            originalPost.setBlog(blogRepository.findBlogById(postRequest.getBlogId()));
             return postRepository.save(originalPost);
         } else
             throw new PostIdException("You do not have permission to update the post.");

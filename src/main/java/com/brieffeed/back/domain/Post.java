@@ -38,9 +38,7 @@ public class Post extends AbstractEntity {
     private String author;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "blog_id"
-            // , nullable = false
-    )
+    @JoinColumn(name = "blog_id", nullable = false)
     @JsonIgnore
     private Blog blog;
 

@@ -1,6 +1,7 @@
 package com.brieffeed.back.web;
 
 import com.brieffeed.back.domain.Post;
+import com.brieffeed.back.payload.PostRequest;
 import com.brieffeed.back.services.MapValidationErrorService;
 import com.brieffeed.back.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,15 +38,6 @@ public class PostController {
         return postService.findAllByAuthor(principal.getName());
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<?> create(@Valid @RequestBody Post post, BindingResult result, Principal principal) {
-        ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
-        if (errorMap != null)
-            return errorMap;
-        Post post1 = postService.create(post, principal.getName());
-        return new ResponseEntity<>(post1, HttpStatus.CREATED);
-    }
-
     @GetMapping(path = "/{id}")
     public ResponseEntity<?> getPostById(@PathVariable String id) {
         Post post = postService.findById(id);
@@ -58,12 +50,21 @@ public class PostController {
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody Post post, BindingResult result, @PathVariable String id, Principal principal) {
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@Valid @RequestBody PostRequest postRequest, BindingResult result, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
         if (errorMap != null)
             return errorMap;
-        Post post1 = postService.update(post, id, principal.getName());
+        Post post1 = postService.create(postRequest, principal.getName());
+        return new ResponseEntity<>(post1, HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> update(@Valid @RequestBody PostRequest postRequest, BindingResult result, @PathVariable String id, Principal principal) {
+        ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
+        if (errorMap != null)
+            return errorMap;
+        Post post1 = postService.update(postRequest, id, principal.getName());
         return new ResponseEntity<>(post1, HttpStatus.OK);
     }
 
