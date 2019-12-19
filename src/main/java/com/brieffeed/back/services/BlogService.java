@@ -66,11 +66,12 @@ public class BlogService {
             throw new BlogNotFoundException("You do not have permission to create blog.");
     }
 
-    public Blog update(Blog updatedBlog, String id, String username) {
+    public Blog update(BlogRequest blogRequest, String id, String username) {
         Blog originalBlog = findById(username, id);
         if (originalBlog.getAuthor().equals(username) && getUserRole(username).equals(Role.AUTHOR.getRole())) {
-            originalBlog.setName(updatedBlog.getName());
-            originalBlog.setDescription(updatedBlog.getDescription());
+            originalBlog.setName(blogRequest.getName());
+            originalBlog.setDescription(blogRequest.getDescription());
+            originalBlog.setCategory(categoryRepository.findCategoryById(blogRequest.getCategoryId()));
             return blogRepository.save(originalBlog);
         } else
             throw new BlogIdException("You do not have permission to update the blog.");

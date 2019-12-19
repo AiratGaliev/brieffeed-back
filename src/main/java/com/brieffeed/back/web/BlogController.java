@@ -49,12 +49,12 @@ public class BlogController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody Blog blog, BindingResult result,
+    public ResponseEntity<?> update(@Valid @RequestBody BlogRequest blogRequest, BindingResult result,
                                     @PathVariable String id, Principal principal) {
         ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
         if (errorMap != null)
             return errorMap;
-        Blog blog1 = blogService.update(blog, id, principal.getName());
+        Blog blog1 = blogService.update(blogRequest, id, principal.getName());
         return new ResponseEntity<>(blog1, HttpStatus.OK);
     }
 
