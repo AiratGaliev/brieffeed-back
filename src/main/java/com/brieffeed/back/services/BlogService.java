@@ -1,11 +1,14 @@
 package com.brieffeed.back.services;
 
 import com.brieffeed.back.domain.Blog;
+import com.brieffeed.back.domain.Category;
 import com.brieffeed.back.domain.Role;
 import com.brieffeed.back.domain.User;
 import com.brieffeed.back.exceptions.BlogIdException;
 import com.brieffeed.back.exceptions.BlogNotFoundException;
+import com.brieffeed.back.payload.BlogRequest;
 import com.brieffeed.back.repositories.BlogRepository;
+import com.brieffeed.back.repositories.CategoryRepository;
 import com.brieffeed.back.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -22,22 +25,15 @@ public class BlogService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     private String getUserRole(String username) {
         return userRepository.findByUserName(username).getRole();
     }
 
     public Iterable<Blog> findAll() {
         return blogRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
-    }
-
-    public Blog create(Blog newBlog, String username) {
-        User user = userRepository.findByUserName(username);
-        if (user.getRole().equals(Role.AUTHOR.getRole())) {
-            newBlog.setUser(user);
-            newBlog.setAuthor(user.getUsername());
-            return blogRepository.save(newBlog);
-        } else
-            throw new BlogNotFoundException("You do not have permission to create blog.");
     }
 
     public Iterable<Blog> findAllByAuthor(String username) {
@@ -58,6 +54,16 @@ public class BlogService {
         } catch (NoSuchElementException | NullPointerException e) {
             throw new BlogIdException("Blog ID: '" + id + "' does not exists");
         }
+    }
+
+    public Blog create(BlogRequest blogRequest, String username) {
+        User user = userRepository.findByUserName(username);
+        Category category = categoryRepository.findCategoryById(blogRequest.getCategoryId());
+        if (user.getRole().equals(Role.AUTHOR.getRole())) {
+            Blog newBlog = new Blog(category, blogRequest.getName(), user, blogRequest.getDescription(), user.getUsername());
+            return blogRepository.save(newBlog);
+        } else
+            throw new BlogNotFoundException("You do not have permission to create blog.");
     }
 
     public Blog update(Blog updatedBlog, String id, String username) {

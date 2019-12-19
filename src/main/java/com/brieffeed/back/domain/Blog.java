@@ -32,9 +32,7 @@ public class Blog extends AbstractEntity {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "category_id"
-//	, nullable = false
-    )
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "blog", orphanRemoval = true)

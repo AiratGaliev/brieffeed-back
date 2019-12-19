@@ -6,7 +6,7 @@ import java.util.Objects;
 @MappedSuperclass
 public abstract class AbstractEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false, unique = true)
     private Long id;
 
