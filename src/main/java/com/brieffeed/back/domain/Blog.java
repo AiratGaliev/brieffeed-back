@@ -33,9 +33,11 @@ public class Blog extends AbstractEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "category_id", nullable = false)
+    @JsonIgnore
     private Category category;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "blog", orphanRemoval = true)
+    @JsonIgnore
     private List<Post> posts = new ArrayList<>();
 
     public Blog() {

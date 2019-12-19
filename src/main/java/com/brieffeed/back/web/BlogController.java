@@ -24,17 +24,17 @@ public class BlogController {
     private MapValidationErrorService mapValidationErrorService;
 
     @GetMapping("")
-    public Iterable<Blog> getCategories() {
+    public Iterable<Blog> getBlogs() {
         return blogService.findAll();
     }
 
     @GetMapping("/my")
-    public Iterable<Blog> getMyPosts(Principal principal) {
+    public Iterable<Blog> getMyBlogs(Principal principal) {
         return blogService.findAllByAuthor(principal.getName());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getPostById(@PathVariable String id) {
+    public ResponseEntity<?> getBlogById(@PathVariable String id) {
         Blog blog = blogService.findById(id);
         return new ResponseEntity<>(blog, HttpStatus.OK);
     }

@@ -27,6 +27,12 @@ public class CategoryController {
 		return categoryService.findAll();
 	}
 
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getCategoryById(@PathVariable String id) {
+		Category category = categoryService.findById(id);
+		return new ResponseEntity<>(category, HttpStatus.OK);
+	}
+
 	@PostMapping("/create")
 	public ResponseEntity<?> create(@Valid @RequestBody Category category, BindingResult result, Principal principal) {
 		ResponseEntity<?> errorMap = mapValidationErrorService.getValidation(result);
@@ -34,12 +40,6 @@ public class CategoryController {
 			return errorMap;
 		Category category1 = categoryService.create(category, principal.getName());
 		return new ResponseEntity<>(category1, HttpStatus.CREATED);
-	}
-
-	@GetMapping("/{id}")
-	public ResponseEntity<?> getPostById(@PathVariable String id) {
-		Category category = categoryService.findById(id);
-		return new ResponseEntity<>(category, HttpStatus.OK);
 	}
 
 	@PatchMapping("/{id}")
