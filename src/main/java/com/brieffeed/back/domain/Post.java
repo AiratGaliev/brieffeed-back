@@ -29,9 +29,7 @@ public class Post extends AbstractEntity {
     private String status = Status.DRAFT.getStatus();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "user_entity_id", updatable = false
-            // , nullable = false
-    )
+    @JoinColumn(name = "user_entity_id", updatable = false, nullable = false)
     @JsonIgnore
     private User user;
 
@@ -132,6 +130,10 @@ public class Post extends AbstractEntity {
 
     public Blog getBlog() {
         return blog;
+    }
+
+    public Long getBlogId() {
+        return blog.getId();
     }
 
     public void setBlog(Blog blog) {
