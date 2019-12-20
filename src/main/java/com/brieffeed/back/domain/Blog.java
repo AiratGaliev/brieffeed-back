@@ -25,9 +25,7 @@ public class Blog extends AbstractEntity {
     private String author;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "user_entity_id", updatable = false
-            // , nullable = false
-    )
+    @JoinColumn(name = "user_entity_id", updatable = false, nullable = false)
     @JsonIgnore
     private User user;
 
@@ -89,6 +87,10 @@ public class Blog extends AbstractEntity {
 
     public Category getCategory() {
         return category;
+    }
+
+    public Long getCategoryId() {
+        return category.getId();
     }
 
     public void setCategory(Category category) {
