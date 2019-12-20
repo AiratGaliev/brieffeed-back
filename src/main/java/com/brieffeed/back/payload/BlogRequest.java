@@ -1,12 +1,14 @@
 package com.brieffeed.back.payload;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class BlogRequest {
     @NotBlank(message = "Blog name cannot be blank")
     private String name;
     @NotBlank(message = "Blog description cannot be blank")
     private String description;
+    @NotNull(message = "Please select your category")
     private Long categoryId;
 
     public String getName() {

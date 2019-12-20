@@ -1,9 +1,14 @@
 package com.brieffeed.back.payload;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 public class PostRequest {
+    @NotBlank(message = "Post title is required")
     private String title;
     private String content;
     private String status;
+    @NotNull(message = "Please select your blog")
     private Long blogId;
 
     public String getTitle() {
