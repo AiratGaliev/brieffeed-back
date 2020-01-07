@@ -1,20 +1,46 @@
 package com.brieffeed.back.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@Table(name = "tag")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Tag extends AbstractEntity {
-	private String name;
+    @Column(nullable = false, unique = true)
+    private String name;
 
-	public Tag(String name) {
-		this.name = name;
-	}
+    @ManyToMany(mappedBy = "tags")
+    @JsonIgnore
+    private Set<Post> posts = new HashSet<>();
 
-	public String getName() {
-		return name;
-	}
+    public Tag() {
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Tag(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(Set<Post> posts) {
+        this.posts = posts;
+    }
 }
