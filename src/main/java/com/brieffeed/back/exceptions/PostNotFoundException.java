@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class PostNotFoundException extends RuntimeException {
 
-    private static final long serialVersionUID = 5335404372867786869L;
-
     public PostNotFoundException(String message) {
         super(message);
     }

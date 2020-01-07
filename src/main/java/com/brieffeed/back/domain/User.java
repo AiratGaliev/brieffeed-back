@@ -20,8 +20,6 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User extends AbstractEntity implements UserDetails {
 
-    private static final long serialVersionUID = -7918459564970482168L;
-
     @Column(nullable = false)
     private String role = Role.USER.getRole();
 
