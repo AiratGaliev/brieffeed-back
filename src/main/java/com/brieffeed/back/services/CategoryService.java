@@ -2,8 +2,8 @@ package com.brieffeed.back.services;
 
 import com.brieffeed.back.domain.Category;
 import com.brieffeed.back.domain.Role;
-import com.brieffeed.back.exceptions.CategoryIdException;
-import com.brieffeed.back.exceptions.CategoryNotFoundException;
+import com.brieffeed.back.exceptions.IdException;
+import com.brieffeed.back.exceptions.NotFoundException;
 import com.brieffeed.back.repositories.CategoryRepository;
 import com.brieffeed.back.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class CategoryService {
         if (getUserRole(username).equals(Role.ADMIN.getRole())) {
             return categoryRepository.save(newCategory);
         } else
-            throw new CategoryNotFoundException("You do not have permission to create category.");
+            throw new NotFoundException("You do not have permission to create category.");
     }
 
     public Category findById(String id) {
@@ -43,11 +43,11 @@ public class CategoryService {
         try {
             Category category = findById(id);
             if (!getUserRole(username).equals(Role.ADMIN.getRole())) {
-                throw new CategoryNotFoundException("Category not found");
+                throw new NotFoundException("Category not found");
             }
             return category;
         } catch (NoSuchElementException | NullPointerException e) {
-            throw new CategoryIdException("Category ID: '" + id + "' does not exists");
+            throw new IdException("Category ID: '" + id + "' does not exists");
         }
     }
 
@@ -57,7 +57,7 @@ public class CategoryService {
             originalCategory.setName(category.getName());
             return categoryRepository.save(originalCategory);
         } else
-            throw new CategoryIdException("You do not have permission to update the category.");
+            throw new NotFoundException("You do not have permission to update the category.");
     }
 
     public void delete(String username, String id) {
@@ -65,6 +65,6 @@ public class CategoryService {
         if (getUserRole(username).equals(Role.ADMIN.getRole())) {
             categoryRepository.delete(category);
         } else
-            throw new CategoryIdException("You do not have permission to delete the category.");
+            throw new NotFoundException("You do not have permission to delete the category.");
     }
 }

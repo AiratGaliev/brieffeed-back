@@ -4,8 +4,8 @@ import com.brieffeed.back.domain.Blog;
 import com.brieffeed.back.domain.Category;
 import com.brieffeed.back.domain.Role;
 import com.brieffeed.back.domain.User;
-import com.brieffeed.back.exceptions.BlogIdException;
-import com.brieffeed.back.exceptions.BlogNotFoundException;
+import com.brieffeed.back.exceptions.IdException;
+import com.brieffeed.back.exceptions.NotFoundException;
 import com.brieffeed.back.payload.BlogRequest;
 import com.brieffeed.back.repositories.BlogRepository;
 import com.brieffeed.back.repositories.CategoryRepository;
@@ -48,11 +48,11 @@ public class BlogService {
         try {
             Blog blog = findById(id);
             if (!(blog.getAuthor().equals(username) || getUserRole(username).equals(Role.ADMIN.getRole()))) {
-                throw new BlogNotFoundException("Blog not found in your account");
+                throw new NotFoundException("Blog not found in your account");
             }
             return blog;
         } catch (NoSuchElementException | NullPointerException e) {
-            throw new BlogIdException("Blog ID: '" + id + "' does not exists");
+            throw new IdException("Blog ID: '" + id + "' does not exists");
         }
     }
 
@@ -63,7 +63,7 @@ public class BlogService {
             Blog newBlog = new Blog(category, blogRequest.getName(), user, blogRequest.getDescription(), user.getUsername());
             return blogRepository.save(newBlog);
         } else
-            throw new BlogNotFoundException("You do not have permission to create blog.");
+            throw new NotFoundException("You do not have permission to create blog.");
     }
 
     public Blog update(BlogRequest blogRequest, String id, String username) {
@@ -74,7 +74,7 @@ public class BlogService {
             originalBlog.setCategory(categoryRepository.findCategoryById(blogRequest.getCategoryId()));
             return blogRepository.save(originalBlog);
         } else
-            throw new BlogIdException("You do not have permission to update the blog.");
+            throw new NotFoundException("You do not have permission to update the blog.");
     }
 
     public void delete(String username, String id) {
@@ -83,6 +83,6 @@ public class BlogService {
                 || getUserRole(username).equals(Role.ADMIN.getRole())) {
             blogRepository.delete(blog);
         } else
-            throw new BlogIdException("You do not have permission to delete the blog.");
+            throw new NotFoundException("You do not have permission to delete the blog.");
     }
 }
