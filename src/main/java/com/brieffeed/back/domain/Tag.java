@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 public class Tag extends AbstractEntity {
 	private String name;
 
-	Tag(String name) {
+	public Tag(String name) {
 		this.name = name;
 	}
 

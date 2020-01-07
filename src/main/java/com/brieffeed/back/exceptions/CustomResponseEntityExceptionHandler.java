@@ -47,18 +47,6 @@ public class CustomResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler
-    public final ResponseEntity<Object> handleNewsIdException(NewsIdException ex, WebRequest request) {
-        NewsIdExceptionResponse exceptionResponse = new NewsIdExceptionResponse(ex.getMessage());
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    public final ResponseEntity<Object> handleNewsNotFoundException(NewsNotFoundException ex, WebRequest request) {
-        NewsNotFoundExceptionResponse exceptionResponse = new NewsNotFoundExceptionResponse(ex.getMessage());
-        return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
     public final ResponseEntity<Object> usernameAlreadyExists(UsernameAlreadyExistsException ex, WebRequest request) {
         UsernameAlreadyExistsResponse exceptionResponse = new UsernameAlreadyExistsResponse(ex.getMessage());
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
