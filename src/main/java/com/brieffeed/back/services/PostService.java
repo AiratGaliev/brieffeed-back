@@ -28,6 +28,17 @@ public class PostService {
     @Autowired
     private TagRepository tagRepository;
 
+    private Set<Tag> getAddedTags(PostRequest postRequest) {
+        Set<Tag> tags = new HashSet<>();
+
+        for (String tagName : postRequest.getTags()) {
+            Tag tag = tagRepository.findByName(tagName);
+            tag = tag == null ? tagRepository.save(new Tag(tagName)) : tag;
+            tags.add(tag);
+        }
+        return tags;
+    }
+
     private String getUserRole(String username) {
         return userRepository.findByUserName(username).getRole();
     }
@@ -79,17 +90,9 @@ public class PostService {
     public Post create(PostRequest postRequest, String username) {
         User user = userRepository.findByUserName(username);
         Blog blog = blogRepository.findBlogById(postRequest.getBlogId());
-        Set<Tag> tags = new HashSet<>();
-
-        for (String tagName : postRequest.getTags()) {
-            Tag tag = tagRepository.findByName(tagName);
-            tag = tag == null ? tagRepository.save(new Tag(tagName)) : tag;
-            tags.add(tag);
-        }
-
         if (user.getRole().equals(Role.AUTHOR.getRole())) {
             Post post = new Post(postRequest.getTitle(), postRequest.getContent(), blog, user, user.getUsername(), postRequest.getStatus());
-            post.setTags(tags);
+            post.setTags(getAddedTags(postRequest));
             return postRepository.save(post);
         } else
             throw new NotFoundException("You do not have permission to create post.");
@@ -102,6 +105,7 @@ public class PostService {
             originalPost.setContent(postRequest.getContent());
             originalPost.setStatus(postRequest.getStatus());
             originalPost.setBlog(blogRepository.findBlogById(postRequest.getBlogId()));
+            originalPost.setTags(getAddedTags(postRequest));
             return postRepository.save(originalPost);
         } else
             throw new NotFoundException("You do not have permission to update the post.");
