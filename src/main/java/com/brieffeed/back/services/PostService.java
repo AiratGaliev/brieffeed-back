@@ -6,14 +6,13 @@ import com.brieffeed.back.exceptions.NotFoundException;
 import com.brieffeed.back.payload.PostRequest;
 import com.brieffeed.back.repositories.BlogRepository;
 import com.brieffeed.back.repositories.PostRepository;
+import com.brieffeed.back.repositories.TagRepository;
 import com.brieffeed.back.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 @Service
 public class PostService {
@@ -25,6 +24,9 @@ public class PostService {
 
     @Autowired
     private BlogRepository blogRepository;
+
+    @Autowired
+    private TagRepository tagRepository;
 
     private String getUserRole(String username) {
         return userRepository.findByUserName(username).getRole();
@@ -77,8 +79,17 @@ public class PostService {
     public Post create(PostRequest postRequest, String username) {
         User user = userRepository.findByUserName(username);
         Blog blog = blogRepository.findBlogById(postRequest.getBlogId());
+        Set<Tag> tags = new HashSet<>();
+
+        for (String tagName : postRequest.getTags()) {
+            Tag tag = tagRepository.findByName(tagName);
+            tag = tag == null ? tagRepository.save(new Tag(tagName)) : tag;
+            tags.add(tag);
+        }
+
         if (user.getRole().equals(Role.AUTHOR.getRole())) {
             Post post = new Post(postRequest.getTitle(), postRequest.getContent(), blog, user, user.getUsername(), postRequest.getStatus());
+            post.setTags(tags);
             return postRepository.save(post);
         } else
             throw new NotFoundException("You do not have permission to create post.");
