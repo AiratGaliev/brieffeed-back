@@ -1,6 +1,9 @@
 package com.brieffeed.back.security;
 
+import static com.brieffeed.back.security.SecurityContains.SIGN_UP_URLS;
+
 import com.brieffeed.back.services.UserDetailServiceImpl;
+import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,76 +21,73 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-
-import static com.brieffeed.back.security.SecurityContains.SIGN_UP_URLS;
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private UserDetailServiceImpl userDetailsService;
 
-    @Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
+  @Autowired
+  private UserDetailServiceImpl userDetailsService;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+  @Autowired
+  private JwtAuthenticationEntryPoint unauthorizedHandler;
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
-    }
+  @Autowired
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Bean
-    public JWTAuthenticationFilter jwtAuthenticationFilter() {
-        return new JWTAuthenticationFilter();
-    }
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+  }
 
-    @Override
-    @Bean(BeanIds.AUTHENTICATION_MANAGER)
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
-    }
+  @Bean
+  public JWTAuthenticationFilter jwtAuthenticationFilter() {
+    return new JWTAuthenticationFilter();
+  }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .headers().frameOptions().sameOrigin() //To enable H2 Database
-                .and()
-                .authorizeRequests()
-                .antMatchers(
-                        "/favicon.ico",
-                        "/**/*.png",
-                        "/**/*.gif",
-                        "/**/*.svg",
-                        "/**/*.jpg",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js"
-                ).permitAll()
-                .antMatchers(SIGN_UP_URLS).permitAll()
-                .anyRequest().authenticated();
+  @Override
+  @Bean(BeanIds.AUTHENTICATION_MANAGER)
+  protected AuthenticationManager authenticationManager() throws Exception {
+    return super.authenticationManager();
+  }
 
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.cors().and().csrf().disable()
+        .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+        .headers().frameOptions().sameOrigin() //To enable H2 Database
+        .and()
+        .authorizeRequests()
+        .antMatchers(
+            "/favicon.ico",
+            "/**/*.png",
+            "/**/*.gif",
+            "/**/*.svg",
+            "/**/*.jpg",
+            "/**/*.html",
+            "/**/*.css",
+            "/**/*.js"
+        ).permitAll()
+        .antMatchers(SIGN_UP_URLS).permitAll()
+        .anyRequest().authenticated();
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("*"));
-        config.setAllowedMethods(Arrays.asList("*"));
-        config.setAllowedHeaders(Arrays.asList("*"));
-        config.setAllowCredentials(true);
-        config.applyPermitDefaultValues();
+    http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+  }
 
-        source.registerCorsConfiguration("/**", config);
-        return source;
-    }
+  @Bean
+  CorsConfigurationSource corsConfigurationSource() {
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    CorsConfiguration config = new CorsConfiguration();
+    config.setAllowedOrigins(Arrays.asList("*"));
+    config.setAllowedMethods(Arrays.asList("*"));
+    config.setAllowedHeaders(Arrays.asList("*"));
+    config.setAllowCredentials(true);
+    config.applyPermitDefaultValues();
+
+    source.registerCorsConfiguration("/**", config);
+    return source;
+  }
 }

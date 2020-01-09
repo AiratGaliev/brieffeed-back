@@ -7,18 +7,19 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends CrudRepository<Post, Long> {
-    Post findPostById(Long aLong);
 
-    Iterable<Post> findAll(Sort sort);
+  Post findPostById(Long aLong);
 
-    @Override
-    Iterable<Post> findAllById(Iterable<Long> iterable);
+  Iterable<Post> findAll(Sort sort);
 
-    Iterable<Post> findAllByAuthor(String username);
+  @Override
+  Iterable<Post> findAllById(Iterable<Long> iterable);
 
-    Iterable<Post> findAllByAuthorAndStatus(String username, String status);
+  Iterable<Post> findAllByAuthor(String username);
 
-    Iterable<Post> findAllByStatus(String status, Sort sort);
+  Iterable<Post> findAllByAuthorAndStatus(String username, String status);
 
-    void delete(Post post);
+  Iterable<Post> findAllByStatus(String status, Sort sort);
+
+  void delete(Post post);
 }

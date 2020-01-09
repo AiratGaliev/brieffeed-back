@@ -1,15 +1,15 @@
 package com.brieffeed.back.domain;
 
 public enum Status {
-	PUBLISH("PUBLISH"), DRAFT("DRAFT"), ARCHIVE("ARCHIVE");
+  PUBLISH("PUBLISH"), DRAFT("DRAFT"), ARCHIVE("ARCHIVE");
 
-	private String status;
+  private String status;
 
-	Status(String status) {
-		this.status = status;
-	}
+  Status(String status) {
+    this.status = status;
+  }
 
-	public String getStatus() {
-		return status;
-	}
+  public String getStatus() {
+    return status;
+  }
 }

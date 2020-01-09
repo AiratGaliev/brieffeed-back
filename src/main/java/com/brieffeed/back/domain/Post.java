@@ -3,156 +3,171 @@ package com.brieffeed.back.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import java.util.*;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "post")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Post extends AbstractEntity {
 
-    @Column(nullable = false)
-    @NotBlank(message = "Post title is required")
-    private String title;
-    @Lob
-    @Type(type = "text")
-    private String description;
-    @Column(columnDefinition = "TEXT")
-    private String content;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-    private Date createdDate, updatedDate;
-    private String status = Status.DRAFT.getStatus();
+  @Column(nullable = false)
+  @NotBlank(message = "Post title is required")
+  private String title;
+  @Lob
+  @Type(type = "text")
+  private String description;
+  @Column(columnDefinition = "TEXT")
+  private String content;
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+  private Date createdDate, updatedDate;
+  private String status = Status.DRAFT.getStatus();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "user_entity_id", updatable = false, nullable = false)
-    @JsonIgnore
-    private User user;
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+  @JoinColumn(name = "user_entity_id", updatable = false, nullable = false)
+  @JsonIgnore
+  private User user;
 
-    private String author;
+  private String author;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "blog_id", nullable = false)
-    @JsonIgnore
-    private Blog blog;
+  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+  @JoinColumn(name = "blog_id", nullable = false)
+  @JsonIgnore
+  private Blog blog;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments = new ArrayList<>();
+  @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Comment> comments = new ArrayList<>();
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "post_tag", joinColumns = @JoinColumn(name = "post_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    @JsonIgnore
-    private Set<Tag> tags = new HashSet<>();
+  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+  @JoinTable(name = "post_tag", joinColumns = @JoinColumn(name = "post_id"),
+      inverseJoinColumns = @JoinColumn(name = "tag_id"))
+  @JsonIgnore
+  private Set<Tag> tags = new HashSet<>();
 
-    public Post() {
+  public Post() {
 
+  }
+
+  public Post(String title, String content, Blog blog, User user, String author, String status) {
+    this.title = title;
+    this.content = content;
+    this.blog = blog;
+    this.user = user;
+    this.author = author;
+    this.status = status;
+  }
+
+  @PrePersist
+  protected void onCreate() {
+    this.createdDate = new Date();
+    if (this.content != null) {
+      if (this.content.length() > 600) {
+        this.description = this.content.substring(0, 600) + "...";
+      } else {
+        this.description = this.content;
+      }
     }
+  }
 
-    public Post(String title, String content, Blog blog, User user, String author, String status) {
-        this.title = title;
-        this.content = content;
-        this.blog = blog;
-        this.user = user;
-        this.author = author;
-        this.status = status;
+  @PreUpdate
+  protected void onUpdate() {
+    this.updatedDate = new Date();
+    if (this.content != null) {
+      if (this.content.length() > 600) {
+        this.description = this.content.substring(0, 600) + "...";
+      } else {
+        this.description = this.content;
+      }
     }
+  }
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdDate = new Date();
-        if (this.content != null) {
-            if (this.content.length() > 600)
-                this.description = this.content.substring(0, 600) + "...";
-            else {
-                this.description = this.content;
-            }
-        }
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedDate = new Date();
-        if (this.content != null) {
-            if (this.content.length() > 600)
-                this.description = this.content.substring(0, 600) + "...";
-            else {
-                this.description = this.content;
-            }
-        }
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    public String getTitle() {
-        return title;
-    }
+  public String getDescription() {
+    return description;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-    public String getDescription() {
-        return description;
-    }
+  public String getContent() {
+    return content;
+  }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public void setContent(String content) {
+    this.content = content;
+  }
 
-    public String getContent() {
-        return content;
-    }
+  public String getStatus() {
+    return status;
+  }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public String getStatus() {
-        return status;
-    }
+  public User getUser() {
+    return user;
+  }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  public void setUser(User user) {
+    this.user = user;
+  }
 
-    public User getUser() {
-        return user;
-    }
+  public String getAuthor() {
+    return author;
+  }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+  public void setAuthor(String author) {
+    this.author = author;
+  }
 
-    public String getAuthor() {
-        return author;
-    }
+  public Blog getBlog() {
+    return blog;
+  }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
+  public Long getBlogId() {
+    return blog.getId();
+  }
 
-    public Blog getBlog() {
-        return blog;
-    }
+  public void setBlog(Blog blog) {
+    this.blog = blog;
+  }
 
-    public Long getBlogId() {
-        return blog.getId();
-    }
+  public List<Comment> getComments() {
+    return comments;
+  }
 
-    public void setBlog(Blog blog) {
-        this.blog = blog;
-    }
+  public Set<Tag> getTags() {
+    return tags;
+  }
 
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
+  public void setTags(Set<Tag> tags) {
+    this.tags = tags;
+  }
 }

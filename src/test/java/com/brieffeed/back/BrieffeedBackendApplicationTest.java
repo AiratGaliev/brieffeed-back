@@ -12,12 +12,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class BrieffeedBackendApplicationTest {
-	@Autowired
-	private PostController postController;
 
-	@Test
-	public void contextLoads() {
-		assertThat(postController).isNotNull();
-	}
+  @Autowired
+  private PostController postController;
+
+  @Test
+  public void contextLoads() {
+    assertThat(postController).isNotNull();
+  }
 
 }

@@ -7,14 +7,15 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BlogRepository extends CrudRepository<Blog, Long> {
-    Iterable<Blog> findAll(Sort sort);
 
-    Blog findBlogById(Long aLong);
+  Iterable<Blog> findAll(Sort sort);
 
-    @Override
-    Iterable<Blog> findAllById(Iterable<Long> iterable);
+  Blog findBlogById(Long aLong);
 
-    Iterable<Blog> findAllByAuthor(String username);
+  @Override
+  Iterable<Blog> findAllById(Iterable<Long> iterable);
 
-    void delete(Blog blog);
+  Iterable<Blog> findAllByAuthor(String username);
+
+  void delete(Blog blog);
 }

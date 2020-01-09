@@ -12,21 +12,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class TagService {
 
-    @Autowired
-    private TagRepository tagRepository;
+  @Autowired
+  private TagRepository tagRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired
+  private UserRepository userRepository;
 
-    public Iterable<Tag> findAll() {
-        return tagRepository.findAll();
+  public Iterable<Tag> findAll() {
+    return tagRepository.findAll();
+  }
+
+  public Tag create(Tag tag, String username) {
+    User user = userRepository.findByUserName(username);
+    if (user.getRole().equals(Role.AUTHOR.getRole())) {
+      return tagRepository.save(tag);
+    } else {
+      throw new NotFoundException("You do not have permission to create tag.");
     }
-
-    public Tag create(Tag tag, String username) {
-        User user = userRepository.findByUserName(username);
-        if (user.getRole().equals(Role.AUTHOR.getRole()))
-            return tagRepository.save(tag);
-        else
-            throw new NotFoundException("You do not have permission to create tag.");
-    }
+  }
 }
