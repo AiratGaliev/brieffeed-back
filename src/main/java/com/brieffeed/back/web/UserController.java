@@ -27,20 +27,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/users")
 public class UserController {
 
-  @Autowired
-  private MapValidationErrorService mapValidationErrorService;
+  private final MapValidationErrorService mapValidationErrorService;
+  private final UserService userService;
+  private final UserValidator userValidator;
+  private final JwtTokenProvider jwtTokenProvider;
+  private final AuthenticationManager authenticationManager;
 
   @Autowired
-  private UserService userService;
-
-  @Autowired
-  private UserValidator userValidator;
-
-  @Autowired
-  private JwtTokenProvider jwtTokenProvider;
-
-  @Autowired
-  private AuthenticationManager authenticationManager;
+  public UserController(
+      MapValidationErrorService mapValidationErrorService, UserService userService,
+      UserValidator userValidator, JwtTokenProvider jwtTokenProvider,
+      AuthenticationManager authenticationManager) {
+    this.mapValidationErrorService = mapValidationErrorService;
+    this.userService = userService;
+    this.userValidator = userValidator;
+    this.jwtTokenProvider = jwtTokenProvider;
+    this.authenticationManager = authenticationManager;
+  }
 
   @PostMapping("/login")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,

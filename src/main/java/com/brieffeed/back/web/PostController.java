@@ -25,11 +25,15 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class PostController {
 
-  @Autowired
-  private PostService postService;
+  private final PostService postService;
+  private final MapValidationErrorService mapValidationErrorService;
 
   @Autowired
-  private MapValidationErrorService mapValidationErrorService;
+  public PostController(
+      PostService postService, MapValidationErrorService mapValidationErrorService) {
+    this.postService = postService;
+    this.mapValidationErrorService = mapValidationErrorService;
+  }
 
   @GetMapping("")
   public Iterable<Post> getPosts() {

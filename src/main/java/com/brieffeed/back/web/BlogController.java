@@ -25,11 +25,15 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class BlogController {
 
-  @Autowired
-  private BlogService blogService;
+  private final BlogService blogService;
+  private final MapValidationErrorService mapValidationErrorService;
 
   @Autowired
-  private MapValidationErrorService mapValidationErrorService;
+  public BlogController(
+      BlogService blogService, MapValidationErrorService mapValidationErrorService) {
+    this.blogService = blogService;
+    this.mapValidationErrorService = mapValidationErrorService;
+  }
 
   @GetMapping("")
   public Iterable<Blog> getBlogs() {

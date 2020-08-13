@@ -10,7 +10,6 @@ import com.brieffeed.back.repositories.BlogRepository;
 import com.brieffeed.back.repositories.CategoryRepository;
 import com.brieffeed.back.repositories.PostRepository;
 import com.brieffeed.back.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,22 +18,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
+  private final PostRepository postRepository;
+  private final UserRepository userRepository;
+  private final CategoryRepository categoryRepository;
+  private final BlogRepository blogRepository;
+
+  public DevBootstrap(PostRepository postRepository, UserRepository userRepository,
+      CategoryRepository categoryRepository, BlogRepository blogRepository) {
+    this.postRepository = postRepository;
+    this.userRepository = userRepository;
+    this.categoryRepository = categoryRepository;
+    this.blogRepository = blogRepository;
+  }
+
   @Override
   public void onApplicationEvent(ContextRefreshedEvent event) {
     initData();
   }
-
-  @Autowired
-  private PostRepository postRepository;
-
-  @Autowired
-  private UserRepository userRepository;
-
-  @Autowired
-  private CategoryRepository categoryRepository;
-
-  @Autowired
-  private BlogRepository blogRepository;
 
   private void initData() {
 

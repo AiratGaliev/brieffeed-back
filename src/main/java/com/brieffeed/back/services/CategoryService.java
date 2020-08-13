@@ -14,11 +14,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class CategoryService {
 
-  @Autowired
-  private CategoryRepository categoryRepository;
+  private final CategoryRepository categoryRepository;
+  private final UserRepository userRepository;
 
   @Autowired
-  private UserRepository userRepository;
+  public CategoryService(
+      CategoryRepository categoryRepository, UserRepository userRepository) {
+    this.categoryRepository = categoryRepository;
+    this.userRepository = userRepository;
+  }
 
   private String getUserRole(String username) {
     return userRepository.findByUserName(username).getRole();

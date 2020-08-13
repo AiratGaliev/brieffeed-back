@@ -12,11 +12,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class TagService {
 
-  @Autowired
-  private TagRepository tagRepository;
+  private final TagRepository tagRepository;
+  private final UserRepository userRepository;
 
   @Autowired
-  private UserRepository userRepository;
+  public TagService(TagRepository tagRepository,
+      UserRepository userRepository) {
+    this.tagRepository = tagRepository;
+    this.userRepository = userRepository;
+  }
 
   public Iterable<Tag> findAll() {
     return tagRepository.findAll();

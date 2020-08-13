@@ -25,17 +25,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class PostService {
 
-  @Autowired
-  private PostRepository postRepository;
+  private final PostRepository postRepository;
+  private final UserRepository userRepository;
+  private final BlogRepository blogRepository;
+  private final TagRepository tagRepository;
 
   @Autowired
-  private UserRepository userRepository;
-
-  @Autowired
-  private BlogRepository blogRepository;
-
-  @Autowired
-  private TagRepository tagRepository;
+  public PostService(PostRepository postRepository,
+      UserRepository userRepository, BlogRepository blogRepository, TagRepository tagRepository) {
+    this.postRepository = postRepository;
+    this.userRepository = userRepository;
+    this.blogRepository = blogRepository;
+    this.tagRepository = tagRepository;
+  }
 
   private Set<Tag> getAddedTags(PostRequest postRequest) {
     Set<Tag> tags = new HashSet<>();

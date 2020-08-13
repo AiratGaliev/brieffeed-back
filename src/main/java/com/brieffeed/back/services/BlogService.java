@@ -18,14 +18,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class BlogService {
 
-  @Autowired
-  private BlogRepository blogRepository;
+  private final BlogRepository blogRepository;
+  private final UserRepository userRepository;
+  private final CategoryRepository categoryRepository;
 
   @Autowired
-  private UserRepository userRepository;
-
-  @Autowired
-  private CategoryRepository categoryRepository;
+  public BlogService(BlogRepository blogRepository,
+      UserRepository userRepository, CategoryRepository categoryRepository) {
+    this.blogRepository = blogRepository;
+    this.userRepository = userRepository;
+    this.categoryRepository = categoryRepository;
+  }
 
   private String getUserRole(String username) {
     return userRepository.findByUserName(username).getRole();

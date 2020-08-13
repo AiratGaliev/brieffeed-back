@@ -21,11 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class TagController {
 
-  @Autowired
-  private TagService tagService;
+  private final TagService tagService;
+  private final MapValidationErrorService mapValidationErrorService;
 
   @Autowired
-  private MapValidationErrorService mapValidationErrorService;
+  public TagController(
+      TagService tagService, MapValidationErrorService mapValidationErrorService) {
+    this.tagService = tagService;
+    this.mapValidationErrorService = mapValidationErrorService;
+  }
 
   @GetMapping("")
   public Iterable<Tag> getTags() {

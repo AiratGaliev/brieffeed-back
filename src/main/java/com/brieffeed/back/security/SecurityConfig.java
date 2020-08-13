@@ -26,14 +26,18 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  @Autowired
-  private UserDetailServiceImpl userDetailsService;
+  private final UserDetailServiceImpl userDetailsService;
+  private final JwtAuthenticationEntryPoint unauthorizedHandler;
+  private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
   @Autowired
-  private JwtAuthenticationEntryPoint unauthorizedHandler;
-
-  @Autowired
-  private BCryptPasswordEncoder bCryptPasswordEncoder;
+  public SecurityConfig(
+      UserDetailServiceImpl userDetailsService, JwtAuthenticationEntryPoint unauthorizedHandler,
+      BCryptPasswordEncoder bCryptPasswordEncoder) {
+    this.userDetailsService = userDetailsService;
+    this.unauthorizedHandler = unauthorizedHandler;
+    this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+  }
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {

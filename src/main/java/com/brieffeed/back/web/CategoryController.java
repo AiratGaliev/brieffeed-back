@@ -24,11 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class CategoryController {
 
-  @Autowired
-  private CategoryService categoryService;
+  private final CategoryService categoryService;
+  private final MapValidationErrorService mapValidationErrorService;
 
   @Autowired
-  private MapValidationErrorService mapValidationErrorService;
+  public CategoryController(
+      CategoryService categoryService, MapValidationErrorService mapValidationErrorService) {
+    this.categoryService = categoryService;
+    this.mapValidationErrorService = mapValidationErrorService;
+  }
 
   @GetMapping("")
   public Iterable<Category> getCategories() {
