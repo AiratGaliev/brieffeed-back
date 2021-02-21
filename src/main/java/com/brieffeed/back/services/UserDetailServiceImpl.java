@@ -20,10 +20,10 @@ public class UserDetailServiceImpl implements UserDetailsService {
   }
 
   @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+  public UserDetails loadUserByUsername(String username) {
     User currentUser = userRepository.findByUserName(username);
     if (currentUser == null) {
-      new UsernameNotFoundException("User not found");
+      throw new UsernameNotFoundException("User not found");
     }
     return currentUser;
   }
@@ -32,7 +32,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
   public User loadUserById(Long id) {
     User currentUser = userRepository.getById(id);
     if (currentUser == null) {
-      new UsernameNotFoundException("User not found");
+      throw new UsernameNotFoundException("User not found");
     }
     return currentUser;
   }

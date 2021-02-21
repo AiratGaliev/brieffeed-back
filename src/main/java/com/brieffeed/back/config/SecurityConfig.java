@@ -1,9 +1,11 @@
-package com.brieffeed.back.security;
+package com.brieffeed.back.config;
 
 import static com.brieffeed.back.security.SecurityContains.SIGN_UP_URLS;
 
+import com.brieffeed.back.security.JWTAuthenticationFilter;
+import com.brieffeed.back.security.JwtAuthenticationEntryPoint;
 import com.brieffeed.back.services.UserDetailServiceImpl;
-import java.util.Arrays;
+import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -85,9 +87,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   CorsConfigurationSource corsConfigurationSource() {
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     CorsConfiguration config = new CorsConfiguration();
-    config.setAllowedOrigins(Arrays.asList("*"));
-    config.setAllowedMethods(Arrays.asList("*"));
-    config.setAllowedHeaders(Arrays.asList("*"));
+    config.setAllowedMethods(Collections.singletonList("*"));
+    config.setAllowedHeaders(Collections.singletonList("*"));
+    config.setAllowedOriginPatterns(Collections.singletonList("*"));
     config.setAllowCredentials(true);
     config.applyPermitDefaultValues();
 
