@@ -28,7 +28,7 @@ public class Category {
   private String name;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "category", orphanRemoval = true)
-  private List<Blog> blogs = new ArrayList<>();
+  private final List<Blog> blogs = new ArrayList<>();
 
   public Category() {
   }

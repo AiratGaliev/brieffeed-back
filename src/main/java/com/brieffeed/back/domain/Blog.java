@@ -43,7 +43,7 @@ public class Blog extends AbstractEntity {
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "blog", orphanRemoval = true)
   @JsonIgnore
-  private List<Post> posts = new ArrayList<>();
+  private final List<Post> posts = new ArrayList<>();
 
   public Blog() {
   }

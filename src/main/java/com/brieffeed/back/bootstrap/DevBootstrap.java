@@ -5,11 +5,14 @@ import com.brieffeed.back.domain.Category;
 import com.brieffeed.back.domain.Post;
 import com.brieffeed.back.domain.Role;
 import com.brieffeed.back.domain.Status;
+import com.brieffeed.back.domain.Tag;
 import com.brieffeed.back.domain.User;
 import com.brieffeed.back.repositories.BlogRepository;
 import com.brieffeed.back.repositories.CategoryRepository;
 import com.brieffeed.back.repositories.PostRepository;
+import com.brieffeed.back.repositories.TagRepository;
 import com.brieffeed.back.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,13 +25,17 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
   private final UserRepository userRepository;
   private final CategoryRepository categoryRepository;
   private final BlogRepository blogRepository;
+  private final TagRepository tagRepository;
 
+  @Autowired
   public DevBootstrap(PostRepository postRepository, UserRepository userRepository,
-      CategoryRepository categoryRepository, BlogRepository blogRepository) {
+      CategoryRepository categoryRepository, BlogRepository blogRepository,
+      TagRepository tagRepository) {
     this.postRepository = postRepository;
     this.userRepository = userRepository;
     this.categoryRepository = categoryRepository;
     this.blogRepository = blogRepository;
+    this.tagRepository = tagRepository;
   }
 
   @Override
@@ -75,20 +82,31 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent> 
     blogRepository.save(blog3);
     blogRepository.save(blog4);
     blogRepository.save(blog5);
-    postRepository.save(
-        new Post("Test Post 1", "Test Post Content 1", blog1, author, author.getUsername(),
-            Status.PUBLISH.getStatus()));
-    postRepository.save(
-        new Post("Test Post 2", "Test Post Content 2", blog2, author, author.getUsername(),
-            Status.PUBLISH.getStatus()));
-    postRepository.save(
-        new Post("Test Post 3", "Test Post Content 3", blog3, author, author.getUsername(),
-            Status.PUBLISH.getStatus()));
-    postRepository.save(
-        new Post("Test Post 4", "Test Post Content 4", blog4, author, author.getUsername(),
-            Status.PUBLISH.getStatus()));
-    postRepository.save(
-        new Post("Test Post 5", "Test Post Content 5", blog5, author, author.getUsername(),
-            Status.PUBLISH.getStatus()));
+    Tag tag1 = new Tag("tag1");
+    Tag tag2 = new Tag("tag2");
+    Tag tag3 = new Tag("tag3");
+    Tag tag4 = new Tag("tag4");
+    Tag tag5 = new Tag("tag5");
+    Post post1 = new Post("Test Post 1", "Test Post Content 1", blog1, author, author.getUsername(),
+        Status.PUBLISH.getStatus());
+    Post post2 = new Post("Test Post 2", "Test Post Content 2", blog2, author, author.getUsername(),
+        Status.PUBLISH.getStatus());
+    Post post3 = new Post("Test Post 3", "Test Post Content 3", blog3, author, author.getUsername(),
+        Status.PUBLISH.getStatus());
+    Post post4 = new Post("Test Post 4", "Test Post Content 4", blog4, author, author.getUsername(),
+        Status.PUBLISH.getStatus());
+    Post post5 = new Post("Test Post 5", "Test Post Content 5", blog5, author, author.getUsername(),
+        Status.PUBLISH.getStatus());
+    post1.getTags().add(tag1);
+    postRepository.save(post1);
+    postRepository.save(post2);
+    postRepository.save(post3);
+    postRepository.save(post4);
+    postRepository.save(post5);
+    tagRepository.save(tag1);
+    tagRepository.save(tag2);
+    tagRepository.save(tag3);
+    tagRepository.save(tag4);
+    tagRepository.save(tag5);
   }
 }

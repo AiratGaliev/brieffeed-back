@@ -3,7 +3,7 @@ package com.brieffeed.back.domain;
 public enum Status {
   PUBLISH("PUBLISH"), DRAFT("DRAFT"), ARCHIVE("ARCHIVE");
 
-  private String status;
+  private final String status;
 
   Status(String status) {
     this.status = status;

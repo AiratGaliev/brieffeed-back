@@ -54,12 +54,12 @@ public class Post extends AbstractEntity {
   private Blog blog;
 
   @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Comment> comments = new ArrayList<>();
+  private final List<Comment> comments = new ArrayList<>();
 
   @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinTable(name = "post_tag", joinColumns = @JoinColumn(name = "post_id"),
       inverseJoinColumns = @JoinColumn(name = "tag_id"))
-  @JsonIgnore
+//  @JsonIgnore
   private Set<Tag> tags = new HashSet<>();
 
   public Post() {
