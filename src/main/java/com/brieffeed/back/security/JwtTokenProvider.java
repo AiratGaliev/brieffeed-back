@@ -14,10 +14,12 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class JwtTokenProvider {
 
   public String generateToken(Authentication authentication) {
@@ -40,15 +42,15 @@ public class JwtTokenProvider {
       Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token);
       return true;
     } catch (SignatureException e) {
-      System.out.println("Invalid JWT Signature");
+      log.warn("Invalid JWT Signature");
     } catch (MalformedJwtException e) {
-      System.out.println("Invalid JWT Token");
+      log.warn("Invalid JWT Token");
     } catch (ExpiredJwtException e) {
-      System.out.println("Expired JWT Token");
+      log.warn("Expired JWT Token");
     } catch (UnsupportedJwtException e) {
-      System.out.println("Unsupported JWT Token");
+      log.warn("Unsupported JWT Token");
     } catch (IllegalArgumentException e) {
-      System.out.println("JWT claims string empty");
+      log.warn("JWT claims string empty");
     }
     return false;
   }
